@@ -10,6 +10,6 @@ app.use("/last", lastRouter);
 
 startWebSocketServer();
 
-app.listen(3000, () => {
-    console.log("HTTP server running on http://localhost:3000");
+app.listen(9011, () => {
+    console.log("HTTP server running on http://localhost:9011");
 });
