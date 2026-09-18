@@ -1,0 +1,18 @@
+{
+  "id": "dl2",
+  "columns": [
+    {
+      "columnName": "NAME",
+      "title": "NAME",
+      "field": "NAME",
+      "isVisible": true
+    },
+    {
+      "columnName": "PARENT",
+      "title": "PARENT",
+      "field": "PARENT",
+      "isVisible": true
+    }
+  ],
+  "data": []
+}

@@ -4,6 +4,9 @@ import { startWebSocketServer } from "./ws.js";
 
 const app = express();
 
+// Serve static files from the 'public' folder
+app.use(express.static('public'));
+
 app.use(express.json());
 
 app.use("/last", lastRouter);
