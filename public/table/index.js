@@ -1,7 +1,7 @@
 // import { default as compile } from "../../src/index.js";
 // import * as domEngine from "./json-to-dom.v27.min.js";
 
-import { default as compile } from "https://keshavsoft.github.io/json-to-spec/dist/v20/min.js";
+import { default as compile } from "https://keshavsoft.github.io/json-to-spec/dist/v23/min.js";
 
 import { specToDom } from "https://keshavsoft.github.io/json-to-dom/dist/v31/min.js";
 
@@ -27,8 +27,10 @@ const loadInput = async () => {
 };
 
 const render = (structure, data) => {
-  let specAsJsonToDom = compile(structure, data, false);
-  console.log("specAsJsonToDom------------ : ", specAsJsonToDom);
+  let specAsJsonToDom = compile({
+    specJson: structure, dataJson: data
+  });
+  console.log("specAsJsonToDom------------ : ", data);
 
   if (!("tagName" in specAsJsonToDom)) {
     specAsJsonToDom = specAsJsonToDom.children;

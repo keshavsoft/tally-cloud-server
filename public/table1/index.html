@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v30 - Input Only</title>
+  <script>
+    if (!location.pathname.endsWith('/') && !location.pathname.endsWith('.html')) {
+      location.replace(location.pathname + '/' + location.search + location.hash);
+    }
+  </script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <main class="container">
+    <h1 id="head1" style="margin-top:0;font-size:1.25rem">Simple Input (v30)</h1>
+    <div id="table"></div>
+    <!-- 
+</table>
+    <table class="table table-hover table-striped mb-0" id="table">
+    </table> -->
+
+    <div id="dom-render-container">
+      <div class="text-center py-5 text-muted">Loading input demo...</div>
+    </div>
+  </main>
+  <script type="module" src="./index.js"></script>
+</body>
+
+</html>
