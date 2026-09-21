@@ -1,0 +1,12 @@
+[
+    {
+        "key": "NAME",
+        "label": "NAME",
+        "type": "string"
+    },
+    {
+        "key": "PARENT",
+        "label": "PARENT",
+        "type": "string"
+    }
+]

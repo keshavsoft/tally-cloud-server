@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v30 - Input Only</title>
+  <script>
+    if (!location.pathname.endsWith('/') && !location.pathname.endsWith('.html')) {
+      location.replace(location.pathname + '/' + location.search + location.hash);
+    }
+  </script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+
+<body>
+  <div id="header-mount">
+    <header class="mb-4 shadow-sm">
+      <div class="px-3 py-2 text-bg-dark border-bottom">
+        <div class="container-fluid px-2 px-md-4 d-flex flex-wrap align-items-center justify-content-between"><a
+            href="./" class="d-flex align-items-center text-white text-decoration-none my-1"><i
+              class="bi bi-bootstrap-fill fs-2 me-2 text-white"></i>
+            <div class="d-flex flex-column"><span class="fs-5 fw-bold lh-1">Tally</span><small
+                class="text-secondary" style="font-size: 0.72rem;">Viusalize as Table</small></div>
+          </a>
+          <ul class="nav d-none d-md-flex align-items-center my-1 text-small text-center">
+            <li><a id="menu-desktop-home" data-item-id="home" href="#/" class="nav-link px-3 active text-primary"><i
+                  class="bi bi-house d-block mx-auto mb-1 fs-5 text-primary"></i><span>Home</span></a></li>
+            <li><a id="menu-desktop-UOM" data-item-id="orders" href="#/orders" class="nav-link px-3 text-white"><i
+                  class="bi bi-table d-block mx-auto mb-1 fs-5 "></i><span>UOM</span></a></li>
+            <li><a id="menu-desktop-reset" data-item-id="reset" href="#" class="nav-link px-3 text-info"><i
+                  class="bi bi-arrow-clockwise d-block mx-auto mb-1 fs-5 "></i><span>Reset</span></a></li>
+          </ul><button type="button"
+            class="btn btn-outline-secondary text-white border-secondary d-md-none my-1 px-2 py-1"
+            data-bs-toggle="collapse" data-bs-target="#mobileNavCollapse" aria-controls="mobileNavCollapse"
+            aria-expanded="false" aria-label="Toggle navigation"><i class="bi bi-list fs-3 lh-1 pe-none"></i></button>
+        </div>
+        <div id="mobileNavCollapse" class="collapse d-md-none w-100">
+          <div class="container-fluid px-2 pt-3 pb-2 border-top border-secondary mt-2">
+            <div class="list-group list-group-flush bg-transparent"><a id="menu-mobile-home" data-item-id="home"
+                href="#/"
+                class="list-group-item list-group-item-action d-flex align-items-center py-2 px-3 mb-1 rounded border bg-primary text-white fw-bold shadow-sm"><i
+                  class="bi bi-house fs-5 me-3 text-white" style="width: 24px; text-align: center;"></i><span
+                  class="text-white flex-grow-1">Home</span><i
+                  class="bi bi-chevron-right text-secondary small"></i></a><a id="menu-mobile-orders"
+                data-item-id="orders" href="#/orders"
+                class="list-group-item list-group-item-action d-flex align-items-center py-2 px-3 mb-1 rounded border bg-dark text-white-50 border-secondary"><i
+                  class="bi bi-table fs-5 me-3 text-light" style="width: 24px; text-align: center;"></i><span
+                  class="text-light flex-grow-1">Orders</span><i
+                  class="bi bi-chevron-right text-secondary small"></i></a><a id="menu-mobile-reset"
+                data-item-id="reset" href="#"
+                class="list-group-item list-group-item-action d-flex align-items-center py-2 px-3 mb-1 rounded border bg-dark text-info border-secondary"><i
+                  class="bi bi-arrow-clockwise fs-5 me-3 text-info" style="width: 24px; text-align: center;"></i><span
+                  class="text-info flex-grow-1">Reset</span><i class="bi bi-chevron-right text-secondary small"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </header>
+  </div>
+
+  <main class="container">
+    <div id="select"></div>
+    <div id="table"></div>
+    <!-- 
+</table>
+    <table class="table table-hover table-striped mb-0" id="table">
+    </table> -->
+
+  </main>
+  <script type="module" src="./index.js"></script>
+</body>
+
+</html>
