@@ -15,7 +15,7 @@ router.get("/:command", (req, res) => {
 
     const command = {
         requestId,
-        action: "LAST"
+        action: commandToSend
     };
 
     requests.set(requestId, {

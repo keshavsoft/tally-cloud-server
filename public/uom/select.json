@@ -1,0 +1,19 @@
+    {
+        "tagName": "select",
+        "attributes": {
+            "id": "select",
+            "class": "form-select"
+        },
+        "jsonToSpec": {
+            "operation": "loopArray",
+            "source": "data",
+            "template": {
+                "tagName": "option",
+                "attributes": {
+                    "value": "${@_NAME}"
+                },
+                "textContent": "${@_NAME}"
+            }
+        },
+        "children": []
+    }

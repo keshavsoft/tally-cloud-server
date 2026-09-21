@@ -1,0 +1,78 @@
+{
+    "serial": false,
+    "caption": {
+        "text": "Purchase Records",
+        "class": "caption-top fw-bold text-secondary ps-2 pb-1"
+    },
+    "colgroup": [
+        {
+            "key": "NAME",
+            "width": "70%"
+        },
+        {
+            "key": "PARENT",
+            "width": "30%"
+        }
+    ],
+    "columnsConfig": [
+        {
+            "key": "inwardQty",
+            "tbody": {
+                "th": {
+                    "attributes": {
+                        "style": "text-align:right;",
+                        "class": "iiiiiiikkk"
+                    }
+                }
+            }
+        },
+        {
+            "key": "outwardQty",
+            "tbody": {
+                "th": {
+                    "attributes": {
+                        "style": "text-align:right;",
+                        "class": "kkkkkkkkkk"
+                    }
+                }
+            }
+        }
+    ],
+    "head": {
+        "columns": [
+            "NAME",
+            "PARENT"
+        ]
+    },
+    "foot": [
+        {
+            "id": "aggregate",
+            "type": "aggregate",
+            "values": {
+                "inwardQty": "sum",
+                "outwardQty": "sum"
+            }
+        },
+        {
+            "id": "netValue",
+            "type": "eval",
+            "values": {
+                "inwardQty": "aggregate.inwardQty - aggregate.outwardQty",
+                "outwardQty": "aggregate.outwardQty - aggregate.inwardQty"
+            }
+        }
+    ],
+    "row": {
+        "striped": true,
+        "hover": true
+    },
+    "classes": {
+        "table": "table table-hover table-striped table-sm align-middle mb-0",
+        "thead": "table-light",
+        "th": "text-uppercase fw-semibold",
+        "tbody": "",
+        "tr": "",
+        "td": "",
+        "tfoot": "table-group-divider fw-bold"
+    }
+}

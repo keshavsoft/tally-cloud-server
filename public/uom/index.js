@@ -49,9 +49,27 @@ uom.addEventListener("click", async (event) => {
     console.log("specAsJsonToDom : ", specAsJsonToDom);
 
     const cont1 = window.ks['json-to-tag'].buildSpecElement({ spec: specAsJsonToDom });
-    const cont2 = document.getElementById("selectCompanyId");
+    const cont2 = document.getElementById("select");
     cont2.append(cont1);
     console.log("cont1 : ", cont1);
     // startFunc();
 });
 
+
+const showCompany = async () => {
+    const response = await fetch("/company");
+
+    // 3. Wait for the response body to be parsed into JSON
+    const company = await response.json();
+
+    let specAsJsonToDom = window.ks['json-to-spec'].buildSpecElement({
+        specJson: selectJson, dataJson: { data: company.data }
+        , showLog: true
+    });
+
+    const cont1 = window.ks['json-to-tag'].buildSpecElement({ spec: specAsJsonToDom });
+    const cont2 = document.getElementById("select");
+    cont2.append(cont1);
+};
+
+showCompany().then();
