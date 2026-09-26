@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tally Cloud Server Dashboard</title>
+  <title>Tally Cloud Gateway - Master & Voucher Portal</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,10 +19,13 @@
       --bg-dark: #0a0e17;
       --bg-card: rgba(17, 24, 39, 0.7);
       --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(99, 102, 241, 0.4);
       --accent-indigo: #6366f1;
       --accent-purple: #8b5cf6;
       --accent-cyan: #06b6d4;
       --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --font-main: 'Plus Jakarta Sans', system-ui, sans-serif;
@@ -48,14 +51,17 @@
     }
 
     header {
-      padding: 1.5rem 2rem;
+      padding: 1.25rem 2rem;
       border-bottom: 1px solid var(--border-color);
-      background: rgba(10, 14, 23, 0.8);
+      background: rgba(10, 14, 23, 0.85);
       backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .header-inner {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -69,21 +75,21 @@
     }
 
     .brand-icon {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border-radius: 10px;
       background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       color: #fff;
       box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
     }
 
     .main-container {
-      max-width: 1200px;
-      margin: 3rem auto;
+      max-width: 1400px;
+      margin: 2rem auto;
       padding: 0 1.5rem;
       flex: 1;
       width: 100%;
@@ -98,35 +104,43 @@
 
     .hero-subtitle {
       color: var(--text-secondary);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 2rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .portal-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     .portal-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 1.75rem;
+      border-radius: 14px;
+      padding: 1.5rem;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: all 0.25s;
-      position: relative;
-      overflow: hidden;
       backdrop-filter: blur(12px);
     }
 
     .portal-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(99, 102, 241, 0.5);
+      transform: translateY(-3px);
+      border-color: var(--border-hover);
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
     }
 
@@ -134,17 +148,17 @@
       display: flex;
       align-items: flex-start;
       gap: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
     }
 
     .card-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       flex-shrink: 0;
     }
 
@@ -152,25 +166,26 @@
     .icon-cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; }
     .icon-emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; }
     .icon-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .icon-purple { background: rgba(139, 92, 246, 0.15); color: #c084fc; }
 
     .card-title {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.2rem;
       color: #fff;
     }
 
     .card-route {
       font-family: 'Fira Code', monospace;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--accent-cyan);
     }
 
     .card-desc {
       color: var(--text-secondary);
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
     }
 
     .card-footer {
@@ -205,23 +220,159 @@
         </div>
         <div>
           <h1 style="font-size: 1.15rem; font-weight: 700;">Tally Cloud Gateway</h1>
-          <span style="font-size: 0.75rem; color: var(--accent-cyan); font-family: monospace;">PORT 9011 (v2 ENGINE)</span>
+          <span style="font-size: 0.75rem; color: var(--accent-cyan); font-family: monospace;">PORT 9011 &bull; CANONICAL SUITE</span>
         </div>
       </div>
       <div>
-        <a href="/docs/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500;">
-          <i class="bi bi-journal-text me-1"></i> Documentation
+        <a href="/docs/" style="display:inline-flex; align-items:center; gap:0.4rem; background:rgba(255,255,255,0.06); padding:0.4rem 0.85rem; border-radius:8px; border:1px solid var(--border-color); color:#fff; text-decoration:none; font-size:0.85rem; font-weight:600;">
+          <i class="bi bi-journal-richtext"></i> Architecture Story Docs
         </a>
       </div>
     </div>
   </header>
 
   <main class="main-container">
-    <h2 class="hero-title">Cloud Server Portal</h2>
-    <p class="hero-subtitle">Unified access point for Tally master views, deep-variant explorer, and ecosystem architecture docs.</p>
+    <h2 class="hero-title">Master &amp; Voucher Cloud Portal</h2>
+    <p class="hero-subtitle">Unified interfaces directly querying Tally Prime through clean WebSocket tunneling.</p>
 
+    <!-- SECTION 1: MASTERS SUITE -->
+    <div class="section-title">
+      <i class="bi bi-diagram-3-fill text-primary"></i> Masters Suite
+    </div>
     <div class="portal-grid">
-      <!-- Card 1: Complete Story Docs -->
+      <!-- Card: StockItem withBatches -->
+      <a href="/masters/StockItem/withBatches/" class="portal-card" style="border-color: rgba(99, 102, 241, 0.4);">
+        <div>
+          <div class="card-top">
+            <div class="card-icon icon-indigo">
+              <i class="bi bi-boxes"></i>
+            </div>
+            <div>
+              <div class="card-title">StockItem withBatches</div>
+              <div class="card-route">/masters/StockItem/withBatches/</div>
+            </div>
+          </div>
+          <p class="card-desc">
+            Deep-variant view with multi-godown batch allocations, opening balances, rates, valuations, live search filter, and JSON explorer.
+          </p>
+        </div>
+        <div class="card-footer">
+          <span>Launch Batches View</span> <i class="bi bi-arrow-right"></i>
+        </div>
+      </a>
+
+      <!-- Card: StockItem withBaseUnits -->
+      <a href="/masters/StockItem/withBaseUnits/" class="portal-card" style="border-color: rgba(16, 185, 129, 0.4);">
+        <div>
+          <div class="card-top">
+            <div class="card-icon icon-emerald">
+              <i class="bi bi-box-seam"></i>
+            </div>
+            <div>
+              <div class="card-title">StockItem withBaseUnits</div>
+              <div class="card-route">/masters/StockItem/withBaseUnits/</div>
+            </div>
+          </div>
+          <p class="card-desc">
+            Stock items paired with their base units of measure (UOM badges) and real-time inventory search.
+          </p>
+        </div>
+        <div class="card-footer" style="color: var(--accent-emerald);">
+          <span>Launch Base Units View</span> <i class="bi bi-arrow-right"></i>
+        </div>
+      </a>
+
+      <!-- Card: Unit all (UOM) -->
+      <a href="/masters/Unit/all/" class="portal-card" style="border-color: rgba(6, 182, 212, 0.4);">
+        <div>
+          <div class="card-top">
+            <div class="card-icon icon-cyan">
+              <i class="bi bi-rulers"></i>
+            </div>
+            <div>
+              <div class="card-title">Units of Measure (UOM)</div>
+              <div class="card-route">/masters/Unit/all/</div>
+            </div>
+          </div>
+          <p class="card-desc">
+            Units of measure master records showing symbol, formal name, decimal places, and search filtering.
+          </p>
+        </div>
+        <div class="card-footer" style="color: var(--accent-cyan);">
+          <span>Launch UOM View</span> <i class="bi bi-arrow-right"></i>
+        </div>
+      </a>
+
+      <!-- Card: Ledger withGstDetails -->
+      <a href="/masters/Ledger/withGstDetails/" class="portal-card" style="border-color: rgba(139, 92, 246, 0.4);">
+        <div>
+          <div class="card-top">
+            <div class="card-icon icon-purple">
+              <i class="bi bi-person-lines-fill"></i>
+            </div>
+            <div>
+              <div class="card-title">Ledgers with GST Details</div>
+              <div class="card-route">/masters/Ledger/withGstDetails/</div>
+            </div>
+          </div>
+          <p class="card-desc">
+            Chart of accounts and customer/vendor ledgers with GST registration type, state, and tax applicability dates.
+          </p>
+        </div>
+        <div class="card-footer" style="color: var(--accent-purple);">
+          <span>Launch Ledgers View</span> <i class="bi bi-arrow-right"></i>
+        </div>
+      </a>
+
+      <!-- Card: StockGroup withParent -->
+      <a href="/masters/StockGroup/withParent/" class="portal-card" style="border-color: rgba(245, 158, 11, 0.4);">
+        <div>
+          <div class="card-top">
+            <div class="card-icon icon-amber">
+              <i class="bi bi-diagram-2"></i>
+            </div>
+            <div>
+              <div class="card-title">Stock Groups with Parent</div>
+              <div class="card-route">/masters/StockGroup/withParent/</div>
+            </div>
+          </div>
+          <p class="card-desc">
+            Inventory classification hierarchy showing group names, primary status, and parent categories.
+          </p>
+        </div>
+        <div class="card-footer" style="color: var(--accent-amber);">
+          <span>Launch Groups View</span> <i class="bi bi-arrow-right"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- SECTION 2: VOUCHERS SUITE -->
+    <div class="section-title">
+      <i class="bi bi-receipt text-success"></i> Vouchers Suite
+    </div>
+    <div class="portal-grid">
+      <!-- Card: Purchase Vouchers by Period -->
+      <a href="/vouchers/purchases/period/" class="portal-card" style="border-color: rgba(16, 185, 129, 0.5);">
+        <div>
+          <div class="card-top">
+            <div class="card-icon icon-emerald">
+              <i class="bi bi-receipt-cutoff"></i>
+            </div>
+            <div>
+              <div class="card-title">Purchase Vouchers (Period)</div>
+              <div class="card-route">/vouchers/purchases/period/</div>
+            </div>
+          </div>
+          <p class="card-desc">
+            Purchase register with date range picker (From/To dates), voucher numbers, supplier ledger names, and gross totals.
+          </p>
+        </div>
+        <div class="card-footer" style="color: var(--accent-emerald);">
+          <span>Launch Purchases View</span> <i class="bi bi-arrow-right"></i>
+        </div>
+      </a>
+
+      <!-- Card: Architecture Story Docs -->
       <a href="/docs/" class="portal-card" style="border-color: rgba(99, 102, 241, 0.4);">
         <div>
           <div class="card-top">
@@ -234,81 +385,18 @@
             </div>
           </div>
           <p class="card-desc">
-            Complete technical documentation covering the 5-layer ecosystem, the &lt;TYPE&gt; revolution, Context Forwarding (Guideline B), and 30s Safety Timeout (Guideline C). Includes interactive API Sandbox.
+            Full technical documentation covering the 5-layer ecosystem, Context Forwarding (Guideline B), 30s Timeout Safety (Guideline C), and live API Sandbox.
           </p>
         </div>
         <div class="card-footer">
           <span>Explore Architecture</span> <i class="bi bi-arrow-right"></i>
         </div>
       </a>
-
-      <!-- Card 2: StockItem withBatches -->
-      <a href="/masters/StockItem/withBatches/" class="portal-card" style="border-color: rgba(6, 182, 212, 0.4);">
-        <div>
-          <div class="card-top">
-            <div class="card-icon icon-cyan">
-              <i class="bi bi-boxes"></i>
-            </div>
-            <div>
-              <div class="card-title">StockItem withBatches</div>
-              <div class="card-route">/masters/StockItem/withBatches/</div>
-            </div>
-          </div>
-          <p class="card-desc">
-            Deep-variant frontend view for Stock Items with real-time multi-godown batch allocations, opening balances, rates, valuations, live search filters, and JSON debugger.
-          </p>
-        </div>
-        <div class="card-footer" style="color: var(--accent-cyan);">
-          <span>Launch View</span> <i class="bi bi-arrow-right"></i>
-        </div>
-      </a>
-
-      <!-- Card 3: UOM Master -->
-      <a href="/uom/" class="portal-card">
-        <div>
-          <div class="card-top">
-            <div class="card-icon icon-emerald">
-              <i class="bi bi-table"></i>
-            </div>
-            <div>
-              <div class="card-title">Units of Measure (UOM)</div>
-              <div class="card-route">/uom/</div>
-            </div>
-          </div>
-          <p class="card-desc">
-            Visualize Units of Measure masters loaded via the JSON-to-DOM table engine and company selection dropdown.
-          </p>
-        </div>
-        <div class="card-footer" style="color: var(--accent-emerald);">
-          <span>Launch UOM</span> <i class="bi bi-arrow-right"></i>
-        </div>
-      </a>
-
-      <!-- Card 4: Company Show -->
-      <a href="/companyShow/" class="portal-card">
-        <div>
-          <div class="card-top">
-            <div class="card-icon icon-amber">
-              <i class="bi bi-building"></i>
-            </div>
-            <div>
-              <div class="card-title">Company Explorer</div>
-              <div class="card-route">/companyShow/</div>
-            </div>
-          </div>
-          <p class="card-desc">
-            Display and verify active company context from Tally Prime via the cloud server's <code>/company</code> endpoint.
-          </p>
-        </div>
-        <div class="card-footer" style="color: var(--accent-amber);">
-          <span>Launch Explorer</span> <i class="bi bi-arrow-right"></i>
-        </div>
-      </a>
     </div>
   </main>
 
   <footer>
-    Tally Cloud Ecosystem &bull; Unified Master Hierarchy &bull; Port 9011
+    Tally Cloud Ecosystem &bull; Unified Master &amp; Voucher Suite &bull; Port 9011
   </footer>
 </body>
 
