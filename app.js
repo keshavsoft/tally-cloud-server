@@ -31,6 +31,7 @@ app.use("/v2/ws", wsRouterV2);
 app.use("/last", lastRouterV2);
 app.use("/company", companyRouterV2);
 app.use("/ws", wsRouterV2);
+app.use("/api", wsRouterV2);
 
 startWebSocketServer();
 

@@ -906,10 +906,10 @@
               <input type="text" class="input-playground" id="pgCompany" value="mani9">
 
               <button class="btn-test" id="btnTestBatches">
-                <i class="bi bi-play-fill"></i> /ws/StockItem.withBatches
+                <i class="bi bi-play-fill"></i> /v2/ws/StockItem.withBatches
               </button>
               <button class="btn-test" id="btnTestUnits">
-                <i class="bi bi-play-fill"></i> /ws/Unit.all
+                <i class="bi bi-play-fill"></i> /v2/ws/Unit.all
               </button>
               <button class="btn-test" id="btnTestCompany">
                 <i class="bi bi-play-fill"></i> /company
@@ -969,11 +969,11 @@
     // Bindings
     document.getElementById("btnTestBatches")?.addEventListener("click", () => {
         const company = document.getElementById("pgCompany")?.value || "mani9";
-        executeApiTest({ inUrl: `/ws/StockItem.withBatches?company=${encodeURIComponent(company)}` });
+        executeApiTest({ inUrl: `/v2/ws/StockItem.withBatches?company=${encodeURIComponent(company)}` });
     });
 
     document.getElementById("btnTestUnits")?.addEventListener("click", () => {
-        executeApiTest({ inUrl: `/ws/Unit.all` });
+        executeApiTest({ inUrl: `/v2/ws/Unit.all` });
     });
 
     document.getElementById("btnTestCompany")?.addEventListener("click", () => {

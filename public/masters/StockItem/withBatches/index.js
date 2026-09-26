@@ -291,7 +291,7 @@ async function fetchStockItemsWithBatches({ inCompany }) {
     updateStatus({ inState: "loading", inMessage: `Fetching for "${localCompany}"...` });
 
     try {
-        const url = `/ws/StockItem.withBatches?company=${encodeURIComponent(localCompany)}`;
+        const url = `/v2/ws/StockItem.withBatches?company=${encodeURIComponent(localCompany)}`;
         const response = await fetch(url);
 
         if (!response.ok) {
