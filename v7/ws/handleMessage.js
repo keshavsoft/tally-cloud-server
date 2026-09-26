@@ -12,14 +12,9 @@ export const handleMessage = (data) => {
         return;
     }
 
-    if (request.timeoutId) {
-        clearTimeout(request.timeoutId);
-    }
-
     request.res.json({
         success: message.success,
-        data: message.data,
-        message: message.message
+        data: message.data
     });
 
     requests.delete(message.requestId);
