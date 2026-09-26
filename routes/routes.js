@@ -6,3 +6,4 @@ const router = express.Router();
 router.use("/", wsRouter);
 
 export { router };
+export default router;

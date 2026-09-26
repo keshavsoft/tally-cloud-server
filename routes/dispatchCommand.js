@@ -1,6 +1,6 @@
 import crypto from "crypto";
-import { requests } from "../../store/requests.js";
-import { sendToClient } from "../../ws/sendToClient.js";
+import { requests } from "../store/requests.js";
+import { sendToClient } from "../ws/sendToClient.js";
 
 export const dispatchCommand = ({ inReq, inRes, inAction, inTimeoutMs = 30000 }) => {
     const localReq = inReq;
