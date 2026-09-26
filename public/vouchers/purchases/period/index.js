@@ -34,7 +34,24 @@ function getVoucherNumber({ inItem }) {
 function getPartyName({ inItem }) {
     const localItem = inItem;
     if (!localItem || typeof localItem !== "object") return "-";
-    return localItem.partyLedgerName ?? localItem.PARTYLEDGERNAME ?? localItem.PARTYNAME ?? "-";
+    const directName = localItem.partyLedgerName ?? localItem.PARTYLEDGERNAME ?? localItem.PARTYNAME ?? localItem.BASICBUYERNAME;
+    if (directName && typeof directName === "string" && directName.trim() && directName.trim() !== "-") {
+        return directName.trim();
+    }
+    // Fallback: search in ALLLEDGERENTRIES.LIST
+    const entries = localItem["ALLLEDGERENTRIES.LIST"] || localItem.ledgerEntries || localItem.allLedgerEntries;
+    if (Array.isArray(entries) && entries.length > 0) {
+        const partyEntry = entries.find((e) => e.ISPARTYLEDGER === "Yes" || e.isPartyLedger === "Yes");
+        if (partyEntry) {
+            const name = partyEntry.LEDGERNAME ?? partyEntry.ledgerName;
+            if (name) return String(name).trim();
+        }
+        const firstEntry = entries[0];
+        if (firstEntry && (firstEntry.LEDGERNAME || firstEntry.ledgerName)) {
+            return String(firstEntry.LEDGERNAME || firstEntry.ledgerName).trim();
+        }
+    }
+    return "-";
 }
 
 function getVoucherType({ inItem }) {
@@ -46,9 +63,28 @@ function getVoucherType({ inItem }) {
 function getVoucherAmount({ inItem }) {
     const localItem = inItem;
     if (!localItem || typeof localItem !== "object") return 0;
-    const rawAmt = localItem.amount ?? localItem.AMOUNT ?? 0;
-    const num = parseFloat(rawAmt);
-    return isNaN(num) ? 0 : Math.abs(num);
+    const rawAmt = localItem.amount ?? localItem.AMOUNT;
+    if (rawAmt !== undefined && rawAmt !== null && rawAmt !== "") {
+        const num = parseFloat(rawAmt);
+        if (!isNaN(num)) return Math.abs(num);
+    }
+    // Fallback: search in ALLLEDGERENTRIES.LIST
+    const entries = localItem["ALLLEDGERENTRIES.LIST"] || localItem.ledgerEntries || localItem.allLedgerEntries;
+    if (Array.isArray(entries) && entries.length > 0) {
+        const partyEntry = entries.find((e) => e.ISPARTYLEDGER === "Yes" || e.isPartyLedger === "Yes");
+        if (partyEntry && (partyEntry.AMOUNT !== undefined || partyEntry.amount !== undefined)) {
+            const num = parseFloat(partyEntry.AMOUNT ?? partyEntry.amount);
+            if (!isNaN(num)) return Math.abs(num);
+        }
+        for (const e of entries) {
+            const val = e.AMOUNT ?? e.amount;
+            if (val !== undefined && val !== null && val !== "") {
+                const num = parseFloat(val);
+                if (!isNaN(num) && num !== 0) return Math.abs(num);
+            }
+        }
+    }
+    return 0;
 }
 
 function updateStatus({ inState, inMessage }) {
