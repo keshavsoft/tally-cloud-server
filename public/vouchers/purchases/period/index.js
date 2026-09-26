@@ -3,8 +3,12 @@
  * Follows strict parameter naming convention: { inParam } -> const localParam = inParam;
  */
 
+import { initCompanyDropdown } from "/js/companyDropdown.js";
+
 let globalRawData = [];
 let globalFilteredData = [];
+let expandedIndices = new Set();
+let activeTabs = {}; // Map of index -> "inventory" | "ledgers" | "raw"
 
 function formatDateForDisplay({ inDateStr }) {
     const localDateStr = String(inDateStr || "");
@@ -87,6 +91,30 @@ function getVoucherAmount({ inItem }) {
     return 0;
 }
 
+function getInventoryEntries({ inItem }) {
+    const localItem = inItem;
+    if (!localItem || typeof localItem !== "object") return [];
+    const raw = localItem.inventoryEntries 
+        ?? localItem["ALLINVENTORYENTRIES.LIST"] 
+        ?? localItem.ALLINVENTORYENTRIES 
+        ?? null;
+    if (!raw || typeof raw !== "object") return [];
+    const list = Array.isArray(raw) ? raw : [raw];
+    return list.filter((e) => e && typeof e === "object" && (e.STOCKITEMNAME || e.stockItemName || e.AMOUNT || e.amount || e.ACTUALQTY || e.billedQty));
+}
+
+function getLedgerEntries({ inItem }) {
+    const localItem = inItem;
+    if (!localItem || typeof localItem !== "object") return [];
+    const raw = localItem.ledgerEntries 
+        ?? localItem["ALLLEDGERENTRIES.LIST"] 
+        ?? localItem.ALLLEDGERENTRIES 
+        ?? null;
+    if (!raw || typeof raw !== "object") return [];
+    const list = Array.isArray(raw) ? raw : [raw];
+    return list.filter((e) => e && typeof e === "object" && (e.LEDGERNAME || e.ledgerName));
+}
+
 function updateStatus({ inState, inMessage }) {
     const localState = inState;
     const localMessage = inMessage;
@@ -136,7 +164,7 @@ function renderTable({ inItems }) {
     if (!localItems || localItems.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6">
+            <td colspan="8">
               <div class="empty-state">
                 <i class="bi bi-search"></i>
                 <p>No matching purchase vouchers found for this period.</p>
@@ -153,9 +181,39 @@ function renderTable({ inItems }) {
         const party = getPartyName({ inItem: item });
         const vType = getVoucherType({ inItem: item });
         const amount = getVoucherAmount({ inItem: item });
+        const invList = getInventoryEntries({ inItem: item });
+        const ledgerList = getLedgerEntries({ inItem: item });
+        const isExpanded = expandedIndices.has(index);
 
-        return `
-          <tr>
+        // Determine active tab if expanded
+        if (!activeTabs[index]) {
+            activeTabs[index] = invList.length > 0 ? "inventory" : (ledgerList.length > 0 ? "ledgers" : "raw");
+        }
+        const currentTab = activeTabs[index];
+
+        // Pills for items/ledgers
+        const pillsHtml = [];
+        if (invList.length > 0) {
+            pillsHtml.push(`
+              <button type="button" class="array-pill array-pill-inventory" data-action="tab-direct" data-index="${index}" data-tab="inventory" title="View inventory lines">
+                <i class="bi bi-box-seam"></i> ${invList.length} Item${invList.length > 1 ? "s" : ""}
+              </button>
+            `);
+        }
+        if (ledgerList.length > 0) {
+            pillsHtml.push(`
+              <button type="button" class="array-pill array-pill-ledgers" data-action="tab-direct" data-index="${index}" data-tab="ledgers" title="View ledger entries">
+                <i class="bi bi-journal-text"></i> ${ledgerList.length} Ledger${ledgerList.length > 1 ? "s" : ""}
+              </button>
+            `);
+        }
+        if (pillsHtml.length === 0) {
+            pillsHtml.push(`<span style="color:var(--text-muted); font-size:0.75rem;">-</span>`);
+        }
+
+        // Main table row
+        let mainRow = `
+          <tr class="row-expandable ${isExpanded ? "row-expanded" : ""}" data-action="toggle-drawer" data-index="${index}">
             <td style="color: var(--text-muted); font-family: var(--font-mono);">${index + 1}</td>
             <td class="cell-mono">${dateStr}</td>
             <td>
@@ -163,13 +221,147 @@ function renderTable({ inItems }) {
             </td>
             <td class="cell-title">${party}</td>
             <td>
+              <div style="display:flex; gap:0.4rem; flex-wrap:wrap; align-items:center;">
+                ${pillsHtml.join("")}
+              </div>
+            </td>
+            <td>
               <span class="chip chip-cyan">${vType}</span>
             </td>
             <td class="cell-mono" style="text-align: right; font-weight: 600; color: #fbbf24;">
               ₹ ${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
+            <td style="text-align: center; color: var(--text-muted);">
+              <i class="bi ${isExpanded ? "bi-chevron-up" : "bi-chevron-down"}" style="cursor: pointer;"></i>
+            </td>
           </tr>
         `;
+
+        // Drawer row if expanded
+        if (isExpanded) {
+            let drawerContent = "";
+
+            if (currentTab === "inventory") {
+                if (invList.length === 0) {
+                    drawerContent = `<div style="padding:1rem; color:var(--text-muted); font-size:0.85rem;"><i class="bi bi-info-circle me-1"></i>No inventory lines attached to this accounting voucher.</div>`;
+                } else {
+                    const invRows = invList.map((inv, iIdx) => {
+                        const sName = inv.STOCKITEMNAME ?? inv.stockItemName ?? "-";
+                        const qty = inv.BILLEDQTY ?? inv.billedQty ?? inv.ACTUALQTY ?? inv.actualQty ?? "-";
+                        const rate = inv.RATE ?? inv.rate ?? "-";
+                        const amt = inv.AMOUNT ?? inv.amount ?? "-";
+
+                        // Batches inside inventory line
+                        let batchChips = "";
+                        const rawBatches = inv["BATCHALLOCATIONS.LIST"] || inv.batchAllocations;
+                        if (rawBatches) {
+                            const bList = Array.isArray(rawBatches) ? rawBatches : [rawBatches];
+                            batchChips = bList.map((b) => {
+                                const bName = b.BATCHNAME ?? b.batchName ?? "-";
+                                const gName = b.GODOWNNAME ?? b.godownName ?? "";
+                                return `<span class="array-pill array-pill-batches" style="margin-right:0.25rem;"><i class="bi bi-tag"></i> ${bName}${gName ? ` (${gName})` : ""}</span>`;
+                            }).join("");
+                        }
+
+                        return `
+                          <tr>
+                            <td style="width:30px; color:var(--text-muted);">${iIdx + 1}</td>
+                            <td style="font-weight:600; color:#fff;">${sName}</td>
+                            <td class="cell-mono">${qty}</td>
+                            <td class="cell-mono">${rate}</td>
+                            <td class="cell-mono" style="color:#fbbf24; font-weight:600;">₹ ${typeof amt === "number" ? Math.abs(amt).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : amt}</td>
+                            <td>${batchChips || `<span style="color:var(--text-muted); font-size:0.75rem;">None</span>`}</td>
+                          </tr>
+                        `;
+                    }).join("");
+
+                    drawerContent = `
+                      <table class="sub-table">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Stock Item Name</th>
+                            <th>Billed Qty</th>
+                            <th>Rate</th>
+                            <th>Amount</th>
+                            <th>Batches / Godown Allocations</th>
+                          </tr>
+                        </thead>
+                        <tbody>${invRows}</tbody>
+                      </table>
+                    `;
+                }
+            } else if (currentTab === "ledgers") {
+                if (ledgerList.length === 0) {
+                    drawerContent = `<div style="padding:1rem; color:var(--text-muted); font-size:0.85rem;"><i class="bi bi-info-circle me-1"></i>No ledger allocations available.</div>`;
+                } else {
+                    const ledRows = ledgerList.map((led, lIdx) => {
+                        const lName = led.LEDGERNAME ?? led.ledgerName ?? "-";
+                        const isParty = led.ISPARTYLEDGER ?? led.isPartyLedger ?? "No";
+                        const amt = led.AMOUNT ?? led.amount ?? 0;
+                        const numAmt = parseFloat(amt);
+                        const isDeemedPos = led.ISDEEMEDPOSITIVE ?? led.isDeemedPositive ?? "No";
+                        const entryType = isDeemedPos === "Yes" ? "Debit (Dr)" : "Credit (Cr)";
+
+                        return `
+                          <tr>
+                            <td style="width:30px; color:var(--text-muted);">${lIdx + 1}</td>
+                            <td style="font-weight:600; color:#fff;">${lName}</td>
+                            <td>
+                              <span class="chip ${isDeemedPos === "Yes" ? "chip-purple" : "chip-cyan"}">${entryType}</span>
+                            </td>
+                            <td class="cell-mono" style="color:#fbbf24; font-weight:600;">₹ ${!isNaN(numAmt) ? Math.abs(numAmt).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : amt}</td>
+                            <td>
+                              ${isParty === "Yes" ? `<span class="chip chip-emerald"><i class="bi bi-person-check me-1"></i>Party Ledger</span>` : `<span style="color:var(--text-muted); font-size:0.75rem;">Account</span>`}
+                            </td>
+                          </tr>
+                        `;
+                    }).join("");
+
+                    drawerContent = `
+                      <table class="sub-table">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Ledger Name</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Role</th>
+                          </tr>
+                        </thead>
+                        <tbody>${ledRows}</tbody>
+                      </table>
+                    `;
+                }
+            } else if (currentTab === "raw") {
+                drawerContent = `<pre class="json-viewer-container" style="max-height:280px; margin:0;">${JSON.stringify(item, null, 2)}</pre>`;
+            }
+
+            mainRow += `
+              <tr class="drawer-tr">
+                <td colspan="8" style="padding: 0; background: transparent;">
+                  <div class="voucher-details-drawer">
+                    <div class="drawer-tabs">
+                      <button type="button" class="drawer-tab-btn ${currentTab === "inventory" ? "active" : ""}" data-action="switch-tab" data-index="${index}" data-tab="inventory">
+                        <i class="bi bi-box-seam"></i> Inventory Items (${invList.length})
+                      </button>
+                      <button type="button" class="drawer-tab-btn ${currentTab === "ledgers" ? "active" : ""}" data-action="switch-tab" data-index="${index}" data-tab="ledgers">
+                        <i class="bi bi-journal-text"></i> Ledger Allocations (${ledgerList.length})
+                      </button>
+                      <button type="button" class="drawer-tab-btn ${currentTab === "raw" ? "active" : ""}" data-action="switch-tab" data-index="${index}" data-tab="raw">
+                        <i class="bi bi-code-slash"></i> Voucher JSON
+                      </button>
+                    </div>
+                    <div class="drawer-content">
+                      ${drawerContent}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            `;
+        }
+
+        return mainRow;
     }).join("");
 
     tbody.innerHTML = rowsHtml;
@@ -182,10 +374,29 @@ function applyFilters({ inRawItems, inSearchQuery }) {
     if (!localSearchQuery) return localRawItems;
 
     return localRawItems.filter((item) => {
-        const vNo = getVoucherNumber({ inItem: item }).toLowerCase();
-        const party = getPartyName({ inItem: item }).toLowerCase();
-        const dateStr = getVoucherDate({ inItem: item }).toLowerCase();
-        return vNo.includes(localSearchQuery) || party.includes(localSearchQuery) || dateStr.includes(localSearchQuery);
+        const vNo = String(getVoucherNumber({ inItem: item })).toLowerCase();
+        const party = String(getPartyName({ inItem: item })).toLowerCase();
+        const dateStr = String(getVoucherDate({ inItem: item })).toLowerCase();
+
+        if (vNo.includes(localSearchQuery) || party.includes(localSearchQuery) || dateStr.includes(localSearchQuery)) {
+            return true;
+        }
+
+        // Deep search through inventory item names
+        const invList = getInventoryEntries({ inItem: item });
+        const hasInvMatch = invList.some((e) => {
+            const name = String(e.STOCKITEMNAME ?? e.stockItemName ?? "").toLowerCase();
+            return name.includes(localSearchQuery);
+        });
+        if (hasInvMatch) return true;
+
+        // Deep search through ledger names
+        const ledList = getLedgerEntries({ inItem: item });
+        const hasLedgerMatch = ledList.some((e) => {
+            const name = String(e.LEDGERNAME ?? e.ledgerName ?? "").toLowerCase();
+            return name.includes(localSearchQuery);
+        });
+        return hasLedgerMatch;
     });
 }
 
@@ -215,7 +426,7 @@ async function fetchPurchases({ inCompany, inFromDate, inToDate }) {
         btnFetch.innerHTML = `<span class="spinner"></span> <span>Fetching...</span>`;
     }
 
-    updateStatus({ inState: "loading", inMessage: `Fetching purchases (${localFrom} - ${localTo})...` });
+    updateStatus({ inState: "loading", inMessage: `Fetching purchases (${localCompany}: ${localFrom} - ${localTo})...` });
 
     try {
         const url = `/v2/ws/vouchers.purchases.period?company=${encodeURIComponent(localCompany)}&from=${encodeURIComponent(localFrom)}&to=${encodeURIComponent(localTo)}`;
@@ -229,12 +440,14 @@ async function fetchPurchases({ inCompany, inFromDate, inToDate }) {
         const items = Array.isArray(payload) ? payload : (payload.data || []);
 
         globalRawData = items;
+        expandedIndices.clear();
+        activeTabs = {};
 
         if (jsonViewer) {
             jsonViewer.textContent = JSON.stringify(payload, null, 2);
         }
 
-        updateStatus({ inState: "ready", inMessage: `Loaded ${items.length} vouchers (${new Date().toLocaleTimeString()})` });
+        updateStatus({ inState: "ready", inMessage: `Loaded ${items.length} vouchers from "${localCompany}" (${new Date().toLocaleTimeString()})` });
         refreshView();
     } catch (err) {
         console.error("Fetch purchases failed:", err);
@@ -244,12 +457,12 @@ async function fetchPurchases({ inCompany, inFromDate, inToDate }) {
         if (tbody) {
             tbody.innerHTML = `
               <tr>
-                <td colspan="6">
+                <td colspan="8">
                   <div class="empty-state">
                     <i class="bi bi-exclamation-triangle" style="color: #ef4444;"></i>
                     <p style="color: #fca5a5; font-weight: 600;">Failed to fetch purchases</p>
                     <p style="font-size:0.85rem; max-width: 500px; margin: 0 auto 1rem;">
-                      ${err.message}. If testing new voucher commands, ensure <code>tally-local-server</code> is running the latest build.
+                      ${err.message}. If testing new voucher commands, ensure <code>tally-local-server</code> is running and connected to Tally.
                     </p>
                   </div>
                 </td>
@@ -266,7 +479,7 @@ async function fetchPurchases({ inCompany, inFromDate, inToDate }) {
 
 function initEventListeners() {
     const btnFetch = document.getElementById("btnFetch");
-    const companyInput = document.getElementById("companyInput");
+    const companySelect = document.getElementById("companySelect");
     const fromInput = document.getElementById("fromDateInput");
     const toInput = document.getElementById("toDateInput");
     const searchInput = document.getElementById("searchInput");
@@ -275,28 +488,57 @@ function initEventListeners() {
     const tableView = document.getElementById("tableView");
     const jsonView = document.getElementById("jsonView");
     const btnCopyJson = document.getElementById("btnCopyJson");
+    const tbody = document.getElementById("tableBody");
 
     const doFetch = () => {
         fetchPurchases({
-            inCompany: companyInput?.value,
+            inCompany: companySelect?.value,
             inFromDate: fromInput?.value,
             inToDate: toInput?.value
         });
     };
 
     if (btnFetch) btnFetch.addEventListener("click", doFetch);
-
-    if (companyInput) {
-        companyInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") doFetch();
-        });
-    }
-
     if (fromInput) fromInput.addEventListener("change", doFetch);
     if (toInput) toInput.addEventListener("change", doFetch);
 
     if (searchInput) {
         searchInput.addEventListener("input", () => refreshView());
+    }
+
+    // Event Delegation on table body for toggling and tabs
+    if (tbody) {
+        tbody.addEventListener("click", (e) => {
+            const target = e.target.closest("[data-action]");
+            if (!target) return;
+
+            const action = target.getAttribute("data-action");
+            const index = parseInt(target.getAttribute("data-index"), 10);
+            if (isNaN(index)) return;
+
+            if (action === "toggle-drawer") {
+                // Ignore if clicked directly on an array pill inside row
+                if (e.target.closest("[data-action='tab-direct']")) return;
+
+                if (expandedIndices.has(index)) {
+                    expandedIndices.delete(index);
+                } else {
+                    expandedIndices.add(index);
+                }
+                renderTable({ inItems: globalFilteredData });
+            } else if (action === "tab-direct") {
+                e.stopPropagation();
+                const tab = target.getAttribute("data-tab");
+                activeTabs[index] = tab;
+                expandedIndices.add(index);
+                renderTable({ inItems: globalFilteredData });
+            } else if (action === "switch-tab") {
+                e.stopPropagation();
+                const tab = target.getAttribute("data-tab");
+                activeTabs[index] = tab;
+                renderTable({ inItems: globalFilteredData });
+            }
+        });
     }
 
     if (tabTable && tabJson && tableView && jsonView) {
@@ -329,13 +571,28 @@ function initEventListeners() {
 
 initEventListeners();
 
-const initialCompanyInput = document.getElementById("companyInput");
-const initialFrom = document.getElementById("fromDateInput");
-const initialTo = document.getElementById("toDateInput");
-if (initialCompanyInput && initialCompanyInput.value) {
-    fetchPurchases({
-        inCompany: initialCompanyInput.value,
-        inFromDate: initialFrom?.value,
-        inToDate: initialTo?.value
+// Initialize Dynamic Company Dropdown and auto-fetch
+(async function init() {
+    const fromInput = document.getElementById("fromDateInput");
+    const toInput = document.getElementById("toDateInput");
+
+    const selectedCompany = await initCompanyDropdown({
+        inSelectElementId: "companySelect",
+        inDefaultCompany: "mani9",
+        inOnChange: ({ inCompany }) => {
+            fetchPurchases({
+                inCompany,
+                inFromDate: fromInput?.value,
+                inToDate: toInput?.value
+            });
+        }
     });
-}
+
+    if (selectedCompany) {
+        fetchPurchases({
+            inCompany: selectedCompany,
+            inFromDate: fromInput?.value,
+            inToDate: toInput?.value
+        });
+    }
+})();

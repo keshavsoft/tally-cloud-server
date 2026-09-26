@@ -3,6 +3,8 @@
  * Follows strict parameter naming convention: { inParam } -> const localParam = inParam;
  */
 
+import { initCompanyDropdown } from "/js/companyDropdown.js";
+
 // Application State
 let globalRawData = [];
 let globalFilteredData = [];
@@ -425,7 +427,7 @@ function loadDemoDataset() {
  */
 function initEventListeners() {
     const btnFetch = document.getElementById("btnFetch");
-    const companyInput = document.getElementById("companyInput");
+    const companySelect = document.getElementById("companySelect");
     const searchInput = document.getElementById("searchInput");
     const chkHasBatchesOnly = document.getElementById("chkHasBatchesOnly");
     const tabTable = document.getElementById("tabTable");
@@ -434,15 +436,9 @@ function initEventListeners() {
     const jsonView = document.getElementById("jsonView");
     const btnCopyJson = document.getElementById("btnCopyJson");
 
-    if (btnFetch && companyInput) {
+    if (btnFetch && companySelect) {
         btnFetch.addEventListener("click", () => {
-            fetchStockItemsWithBatches({ inCompany: companyInput.value });
-        });
-
-        companyInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                fetchStockItemsWithBatches({ inCompany: companyInput.value });
-            }
+            fetchStockItemsWithBatches({ inCompany: companySelect.value });
         });
     }
 
@@ -498,8 +494,16 @@ function initEventListeners() {
 // Kick off initialization
 initEventListeners();
 
-// Attempt initial fetch on page load if company is filled
-const initialCompanyInput = document.getElementById("companyInput");
-if (initialCompanyInput && initialCompanyInput.value) {
-    fetchStockItemsWithBatches({ inCompany: initialCompanyInput.value });
-}
+(async function init() {
+    const selectedCompany = await initCompanyDropdown({
+        inSelectElementId: "companySelect",
+        inDefaultCompany: "mani9",
+        inOnChange: ({ inCompany }) => {
+            fetchStockItemsWithBatches({ inCompany });
+        }
+    });
+
+    if (selectedCompany) {
+        fetchStockItemsWithBatches({ inCompany: selectedCompany });
+    }
+})();

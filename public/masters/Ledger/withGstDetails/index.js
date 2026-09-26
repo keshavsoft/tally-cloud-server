@@ -3,6 +3,8 @@
  * Follows strict parameter naming convention: { inParam } -> const localParam = inParam;
  */
 
+import { initCompanyDropdown } from "/js/companyDropdown.js";
+
 let globalRawData = [];
 let globalFilteredData = [];
 
@@ -211,7 +213,7 @@ async function fetchLedgers({ inCompany }) {
 
 function initEventListeners() {
     const btnFetch = document.getElementById("btnFetch");
-    const companyInput = document.getElementById("companyInput");
+    const companySelect = document.getElementById("companySelect");
     const searchInput = document.getElementById("searchInput");
     const chkHasGstOnly = document.getElementById("chkHasGstOnly");
     const tabTable = document.getElementById("tabTable");
@@ -220,13 +222,9 @@ function initEventListeners() {
     const jsonView = document.getElementById("jsonView");
     const btnCopyJson = document.getElementById("btnCopyJson");
 
-    if (btnFetch && companyInput) {
+    if (btnFetch && companySelect) {
         btnFetch.addEventListener("click", () => {
-            fetchLedgers({ inCompany: companyInput.value });
-        });
-
-        companyInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") fetchLedgers({ inCompany: companyInput.value });
+            fetchLedgers({ inCompany: companySelect.value });
         });
     }
 
@@ -268,7 +266,16 @@ function initEventListeners() {
 
 initEventListeners();
 
-const initialCompanyInput = document.getElementById("companyInput");
-if (initialCompanyInput && initialCompanyInput.value) {
-    fetchLedgers({ inCompany: initialCompanyInput.value });
-}
+(async function init() {
+    const selectedCompany = await initCompanyDropdown({
+        inSelectElementId: "companySelect",
+        inDefaultCompany: "mani9",
+        inOnChange: ({ inCompany }) => {
+            fetchLedgers({ inCompany });
+        }
+    });
+
+    if (selectedCompany) {
+        fetchLedgers({ inCompany: selectedCompany });
+    }
+})();

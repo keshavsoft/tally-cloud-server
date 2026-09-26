@@ -3,6 +3,8 @@
  * Follows strict parameter naming convention: { inParam } -> const localParam = inParam;
  */
 
+import { initCompanyDropdown } from "/js/companyDropdown.js";
+
 let globalRawData = [];
 let globalFilteredData = [];
 
@@ -161,7 +163,7 @@ async function fetchUnits({ inCompany }) {
 
 function initEventListeners() {
     const btnFetch = document.getElementById("btnFetch");
-    const companyInput = document.getElementById("companyInput");
+    const companySelect = document.getElementById("companySelect");
     const searchInput = document.getElementById("searchInput");
     const tabTable = document.getElementById("tabTable");
     const tabJson = document.getElementById("tabJson");
@@ -169,13 +171,9 @@ function initEventListeners() {
     const jsonView = document.getElementById("jsonView");
     const btnCopyJson = document.getElementById("btnCopyJson");
 
-    if (btnFetch && companyInput) {
+    if (btnFetch && companySelect) {
         btnFetch.addEventListener("click", () => {
-            fetchUnits({ inCompany: companyInput.value });
-        });
-
-        companyInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") fetchUnits({ inCompany: companyInput.value });
+            fetchUnits({ inCompany: companySelect.value });
         });
     }
 
@@ -213,7 +211,16 @@ function initEventListeners() {
 
 initEventListeners();
 
-const initialCompanyInput = document.getElementById("companyInput");
-if (initialCompanyInput && initialCompanyInput.value) {
-    fetchUnits({ inCompany: initialCompanyInput.value });
-}
+(async function init() {
+    const selectedCompany = await initCompanyDropdown({
+        inSelectElementId: "companySelect",
+        inDefaultCompany: "mani9",
+        inOnChange: ({ inCompany }) => {
+            fetchUnits({ inCompany });
+        }
+    });
+
+    if (selectedCompany) {
+        fetchUnits({ inCompany: selectedCompany });
+    }
+})();

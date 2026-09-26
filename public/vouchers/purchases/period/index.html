@@ -66,7 +66,9 @@
       <div class="control-inputs">
         <div class="input-group-custom">
           <span class="input-label"><i class="bi bi-building me-1"></i> Company</span>
-          <input type="text" id="companyInput" placeholder="e.g. mani9" value="mani9" style="min-width: 120px;">
+          <select id="companySelect" style="min-width: 140px;">
+            <option value="mani9">Loading companies...</option>
+          </select>
         </div>
 
         <div class="input-group-custom">
@@ -151,16 +153,18 @@
           <thead>
             <tr>
               <th style="width: 50px;">#</th>
-              <th style="width: 140px;">Date</th>
-              <th style="width: 160px;">Voucher No</th>
+              <th style="width: 125px;">Date</th>
+              <th style="width: 125px;">Voucher No</th>
               <th>Party Ledger / Supplier</th>
-              <th style="width: 150px;">Voucher Type</th>
-              <th style="width: 180px; text-align: right;">Amount (₹)</th>
+              <th style="width: 220px;">Entries & Items</th>
+              <th style="width: 130px;">Voucher Type</th>
+              <th style="width: 160px; text-align: right;">Amount (₹)</th>
+              <th style="width: 45px; text-align: center;"></th>
             </tr>
           </thead>
           <tbody id="tableBody">
             <tr>
-              <td colspan="6">
+              <td colspan="8">
                 <div class="empty-state">
                   <i class="bi bi-receipt"></i>
                   <p>Select date range and click <strong>"Fetch Purchases"</strong> to load voucher records from Tally.</p>
