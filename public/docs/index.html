@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tally Cloud & Master Architecture — Complete Story Docs</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --bg-panel: #111827;
+      --bg-card: rgba(17, 24, 39, 0.75);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.4);
+      --accent-indigo: #6366f1;
+      --accent-purple: #8b5cf6;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 40%),
+        radial-gradient(at 100% 30%, rgba(139, 92, 246, 0.1) 0px, transparent 45%),
+        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Navigation Bar */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 14, 23, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.85rem 2rem;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    }
+
+    .brand-text h1 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-text span {
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    .btn-launch-app {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-launch-app:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    /* Layout */
+    .docs-layout {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 2.5rem;
+    }
+
+    /* Sidebar Table of Contents */
+    .toc-sidebar {
+      position: sticky;
+      top: 5rem;
+      height: calc(100vh - 6rem);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.875rem;
+    }
+
+    .toc-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .toc-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.45rem 0.75rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+    }
+
+    .toc-item:hover, .toc-item.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.04);
+      border-left-color: var(--accent-indigo);
+    }
+
+    /* Main Article */
+    .docs-content {
+      min-width: 0;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.8));
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #a5b4fc;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 800px;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .btn-hero-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-hero-action:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--accent-indigo);
+      transform: translateY(-1px);
+    }
+
+    /* Section Styling */
+    .docs-section {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: 6rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-icon {
+      font-size: 1.5rem;
+      color: var(--accent-indigo);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .section-body {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .section-body p {
+      margin-bottom: 1rem;
+    }
+
+    /* Architecture Grid (5 Layers) */
+    .architecture-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .layer-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .layer-card:hover {
+      border-color: var(--border-accent);
+      transform: translateX(4px);
+    }
+
+    .layer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .layer-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .layer-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .num-1 { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; }
+    .num-2 { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
+    .num-3 { background: rgba(6, 182, 212, 0.2); color: #67e8f9; }
+    .num-4 { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+    .num-5 { background: rgba(245, 158, 11, 0.2); color: #fde68a; }
+
+    .layer-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .layer-version {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+    }
+
+    .layer-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .layer-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .feature-chip {
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      color: #cbd5e1;
+    }
+
+    /* Comparison Table */
+    .docs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 0.875rem;
+    }
+
+    .docs-table th {
+      background: rgba(15, 23, 42, 0.9);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #cbd5e1;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .docs-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: middle;
+    }
+
+    .badge-old {
+      background: rgba(244, 63, 94, 0.15);
+      color: #fb7185;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .badge-new {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    /* Code Blocks */
+    .code-box {
+      background: #060910;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      margin: 1.25rem 0;
+      overflow: hidden;
+    }
+
+    .code-header {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .code-pre {
+      padding: 1rem;
+      margin: 0;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    /* Interactive API Playground */
+    .playground-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .playground-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+
+    .input-playground {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
+      color: #fff;
+      font-size: 0.875rem;
+      outline: none;
+      min-width: 140px;
+    }
+
+    .btn-test {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid var(--accent-indigo);
+      color: #c7d2fe;
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-test:hover {
+      background: var(--accent-indigo);
+      color: #fff;
+    }
+
+    .playground-result {
+      background: #060910;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+      max-height: 350px;
+      overflow: auto;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #a5f3fc;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .docs-layout {
+        grid-template-columns: 1fr;
+      }
+      .toc-sidebar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Top Navigation -->
+  <nav class="top-nav">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">
+          <i class="bi bi-stack"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Tally Cloud Ecosystem</h1>
+          <span>ARCHITECTURE STORY DOCS</span>
+        </div>
+      </a>
+
+      <div class="nav-links">
+        <a href="#overview" class="nav-link">Overview</a>
+        <a href="#layers" class="nav-link">5-Tier Stack</a>
+        <a href="#conventions" class="nav-link">Conventions</a>
+        <a href="#playground" class="nav-link">API Sandbox</a>
+        <a href="/masters/StockItem/withBatches/" class="btn-launch-app">
+          <i class="bi bi-boxes"></i> Live withBatches View
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Docs Layout -->
+  <div class="docs-layout">
+    <!-- Table of Contents Sidebar -->
+    <aside class="toc-sidebar">
+      <div class="toc-title">Story Chapters</div>
+      <a href="#overview" class="toc-item active"><i class="bi bi-bookmark"></i> The Migration Mission</a>
+      <a href="#evolution" class="toc-item"><i class="bi bi-diagram-3"></i> Tally &lt;TYPE&gt; Hierarchy</a>
+      <a href="#layers" class="toc-item"><i class="bi bi-layers"></i> The 5-Tier Architecture</a>
+      <a href="#cloud-server" class="toc-item"><i class="bi bi-cloud-check"></i> Cloud Server (Guidelines B & C)</a>
+      <a href="#frontend-views" class="toc-item"><i class="bi bi-window"></i> Frontend Deep Folder Design</a>
+      <a href="#conventions" class="toc-item"><i class="bi bi-check2-circle"></i> In/Local Coding Standard</a>
+      <a href="#playground" class="toc-item"><i class="bi bi-terminal"></i> Live API Playground</a>
+    </aside>
+
+    <!-- Content Body -->
+    <main class="docs-content">
+      <!-- Hero Banner -->
+      <section class="hero-banner" id="overview">
+        <div class="hero-badge">
+          <i class="bi bi-lightning-charge-fill"></i> Full Stack Revolution
+        </div>
+        <h2 class="hero-title">Unified Tally Architecture: The Complete Story</h2>
+        <p class="hero-desc">
+          How we re-architected the entire four-repository ecosystem (<code>tally-xml-tdl</code>, <code>tally-to-json</code>, <code>tally-local-server</code>, and <code>tally-cloud-server</code>) around Tally's native <strong>&lt;TYPE&gt;</strong> hierarchy, enabling deep master dimensions like <code>withBatches</code>, robust WebSocket tunneling, and modular frontend views.
+        </p>
+
+        <div class="hero-quick-actions">
+          <a href="/masters/StockItem/withBatches/" class="btn-hero-action" style="background: var(--accent-indigo); border-color: var(--accent-indigo);">
+            <i class="bi bi-box-arrow-up-right"></i> Open StockItem.withBatches UI
+          </a>
+          <a href="#layers" class="btn-hero-action">
+            <i class="bi bi-layers-half"></i> Explore 5-Tier Stack
+          </a>
+          <a href="#playground" class="btn-hero-action">
+            <i class="bi bi-play-circle"></i> Test Live Endpoints
+          </a>
+        </div>
+      </section>
+
+      <!-- Chapter 1: The Problem & The Transformation -->
+      <section class="docs-section" id="evolution">
+        <div class="section-header">
+          <i class="bi bi-shuffle section-icon"></i>
+          <h3 class="section-title">1. The Need: From Flat Names to Canonical &lt;TYPE&gt;</h3>
+        </div>
+        <div class="section-body">
+          <p>
+            Historically, Tally commands were exposed through disparate, ad-hoc naming patterns like <code>stockItems</code>, <code>uom</code>, <code>ledgers</code>, and <code>groups</code>. This created impedance mismatch with Tally's native TDL, where every master object adheres to a strictly defined XML attribute: <code>&lt;TYPE&gt;Unit&lt;/TYPE&gt;</code>, <code>&lt;TYPE&gt;StockItem&lt;/TYPE&gt;</code>, <code>&lt;TYPE&gt;Ledger&lt;/TYPE&gt;</code>, etc.
+          </p>
+          <p>
+            Furthermore, real-world business needs demand granular variations: querying basic names only, querying base units, or querying multi-godown batch allocations with opening balances and valuations.
+          </p>
+
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Master Entity</th>
+                <th>Old Flat Command</th>
+                <th>New Canonical &lt;TYPE&gt; Hierarchy</th>
+                <th>Sub-Variant Capabilities</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Stock Item</strong></td>
+                <td><span class="badge-old">stockItems</span></td>
+                <td><span class="badge-new">StockItem</span></td>
+                <td><code>all</code>, <code>names</code>, <code>withBaseUnits</code>, <strong><code>withBatches</code></strong></td>
+              </tr>
+              <tr>
+                <td><strong>Unit of Measure</strong></td>
+                <td><span class="badge-old">uom</span></td>
+                <td><span class="badge-new">Unit</span></td>
+                <td><code>all</code>, <code>names</code></td>
+              </tr>
+              <tr>
+                <td><strong>Accounting Ledger</strong></td>
+                <td><span class="badge-old">ledgers</span></td>
+                <td><span class="badge-new">Ledger</span></td>
+                <td><code>all</code>, <code>names</code></td>
+              </tr>
+              <tr>
+                <td><strong>Stock Group</strong></td>
+                <td><span class="badge-old">stockGroups</span></td>
+                <td><span class="badge-new">StockGroup</span></td>
+                <td><code>all</code>, <code>names</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Chapter 2: The 5-Tier Architecture -->
+      <section class="docs-section" id="layers">
+        <div class="section-header">
+          <i class="bi bi-diagram-3 section-icon"></i>
+          <h3 class="section-title">2. The 5-Tier Ecosystem Architecture</h3>
+        </div>
+        <div class="section-body">
+          <p>
+            The entire pipeline operates as a unified, decoupled distributed machine:
+          </p>
+
+          <div class="architecture-stack">
+            <!-- Tier 1 -->
+            <div class="layer-card">
+              <div class="layer-header">
+                <div class="layer-title-wrap">
+                  <div class="layer-num num-1">1</div>
+                  <div class="layer-name">tally-xml-tdl</div>
+                  <span class="layer-version">v22.0.0</span>
+                </div>
+                <span class="badge-tag">XML Generation</span>
+              </div>
+              <p class="layer-desc">
+                Organized under <code>tdlMessage.json</code> with canonical master keys. Returns callable functions with attached sub-variants like <code>StockItem.withBatches()</code> producing pure Tally Definition Language XML.
+              </p>
+              <div class="layer-features">
+                <span class="feature-chip"><i class="bi bi-filetype-xml me-1"></i>TDL Templates</span>
+                <span class="feature-chip"><i class="bi bi-folder me-1"></i>src/v22/masters/</span>
+                <span class="feature-chip"><i class="bi bi-check-all me-1"></i>Test/v13 Matrix</span>
+              </div>
+            </div>
+
+            <!-- Tier 2 -->
+            <div class="layer-card">
+              <div class="layer-header">
+                <div class="layer-title-wrap">
+                  <div class="layer-num num-2">2</div>
+                  <div class="layer-name">tally-to-json</div>
+                  <span class="layer-version">v1.12.2 (v12)</span>
+                </div>
+                <span class="badge-tag">Parser & Normalizer</span>
+              </div>
+              <p class="layer-desc">
+                Executes a deterministic 5-stage transformation pipeline: <code>asIs</code> &rarr; <code>cleaned</code> &rarr; <code>selected</code> &rarr; <code>renamed</code> &rarr; <code>normalized</code>. Handles complex nested arrays and objects such as <code>batchAllocations</code> with Godowns, Balances, Rates, and Values.
+              </p>
+              <div class="layer-features">
+                <span class="feature-chip"><i class="bi bi-gear me-1"></i>5-Stage Pipeline</span>
+                <span class="feature-chip"><i class="bi bi-database me-1"></i>Data/v3/ Snapshot Logging</span>
+                <span class="feature-chip"><i class="bi bi-braces me-1"></i>Batch Normalization</span>
+              </div>
+            </div>
+
+            <!-- Tier 3 -->
+            <div class="layer-card">
+              <div class="layer-header">
+                <div class="layer-title-wrap">
+                  <div class="layer-num num-3">3</div>
+                  <div class="layer-name">tally-local-server</div>
+                  <span class="layer-version">v2 (Port 9000 &harr; Cloud)</span>
+                </div>
+                <span class="badge-tag">Local Tunnel Client</span>
+              </div>
+              <p class="layer-desc">
+                Connects outbound via WebSocket to the Cloud Server. Contains a modular command dispatcher in <code>ws/v2/commands/masters/</code> that accepts dot-notation commands (<code>StockItem.withBatches</code>), pulls XML from Tally Prime, transforms via <code>tally-to-json</code>, and transmits the clean JSON payload back.
+              </p>
+              <div class="layer-features">
+                <span class="feature-chip"><i class="bi bi-plug me-1"></i>Outbound WS Client</span>
+                <span class="feature-chip"><i class="bi bi-arrow-left-right me-1"></i>Modular Dispatcher</span>
+                <span class="feature-chip"><i class="bi bi-pc-display me-1"></i>Tally Prime Gateway</span>
+              </div>
+            </div>
+
+            <!-- Tier 4 -->
+            <div class="layer-card">
+              <div class="layer-header">
+                <div class="layer-title-wrap">
+                  <div class="layer-num num-4">4</div>
+                  <div class="layer-name">tally-cloud-server</div>
+                  <span class="layer-version">v2 (Port 9011)</span>
+                </div>
+                <span class="badge-tag">Cloud WebSocket Hub</span>
+              </div>
+              <p class="layer-desc">
+                The central cloud switchboard. Preserves legacy v1 untouched while providing <strong>v2</strong> with Context Forwarding (query params &amp; body) and a 30-Second Timeout Safety mechanism preventing hanging HTTP connections.
+              </p>
+              <div class="layer-features">
+                <span class="feature-chip"><i class="bi bi-shield-check me-1"></i>Guideline B: Context Forwarding</span>
+                <span class="feature-chip"><i class="bi bi-clock-history me-1"></i>Guideline C: 30s Safety Timeout</span>
+                <span class="feature-chip"><i class="bi bi-hdd-network me-1"></i>HTTP-to-WS Bridge</span>
+              </div>
+            </div>
+
+            <!-- Tier 5 -->
+            <div class="layer-card">
+              <div class="layer-header">
+                <div class="layer-title-wrap">
+                  <div class="layer-num num-5">5</div>
+                  <div class="layer-name">Frontend Consumer Views</div>
+                  <span class="layer-version">public/masters/...</span>
+                </div>
+                <span class="badge-tag">Client Presentation</span>
+              </div>
+              <p class="layer-desc">
+                Folder depth strictly mirrors backend master hierarchy: <code>public/masters/StockItem/withBatches/</code>. Directly invokes <code>/ws/StockItem.withBatches?company=...</code>, displaying real-time batch allocation tables, search filters, and KPI metric cards.
+              </p>
+              <div class="layer-features">
+                <span class="feature-chip"><i class="bi bi-window-sidebar me-1"></i>Modular Pages</span>
+                <span class="feature-chip"><i class="bi bi-search me-1"></i>Instant Search Filter</span>
+                <span class="feature-chip"><i class="bi bi-code-square me-1"></i>JSON Debugger</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 3: Cloud Server Enhancements -->
+      <section class="docs-section" id="cloud-server">
+        <div class="section-header">
+          <i class="bi bi-cloud-arrow-up section-icon"></i>
+          <h3 class="section-title">3. Cloud Server Core Enhancements</h3>
+        </div>
+        <div class="section-body">
+          <p>
+            In <code>tally-cloud-server/routes/v2/dispatchCommand.js</code>, two foundational architectural guidelines are enforced:
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+            <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+              <h4 style="color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <i class="bi bi-send-check"></i> Guideline B: Context Forwarding
+              </h4>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0;">
+                All query parameters (e.g. <code>?company=mani9</code>) and request bodies are packaged into the WebSocket message:
+                <code>{ command, query: req.query, body: req.body }</code>. The local server receives complete context for every execution.
+              </p>
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem;">
+              <h4 style="color: var(--accent-rose); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <i class="bi bi-stopwatch"></i> Guideline C: 30-Second Safety Timeout
+              </h4>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0;">
+                Every pending HTTP-to-WS request tracks a <code>timeoutId</code>. If the local server or Tally fails to respond within 30 seconds, it cancels cleanly and returns an HTTP 504 Gateway Timeout instead of leaving browser connections hanging.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 4: Frontend Deep Folder Design -->
+      <section class="docs-section" id="frontend-views">
+        <div class="section-header">
+          <i class="bi bi-folder-symlink section-icon"></i>
+          <h3 class="section-title">4. Frontend Deep Folder Hierarchy</h3>
+        </div>
+        <div class="section-body">
+          <p>
+            Because each Tally master type and sub-variant presents distinct dimensions (e.g. Batches contain Godowns and Expiry; Base Units contain UOM codes), each view is housed in its own dedicated directory tree:
+          </p>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span>Directory Layout: public/</span>
+              <span>RESTful Static Tree</span>
+            </div>
+            <pre class="code-pre">tally-cloud-server/
+└── public/
+    ├── index.html                               # Central Gateway & Directory Dashboard
+    ├── docs/
+    │   └── index.html                           # Full Architecture Story Documentation
+    └── masters/
+        ├── StockItem/
+        │   ├── withBatches/                     # Deep Variant View for Batch Allocations
+        │   │   ├── index.html
+        │   │   ├── index.css
+        │   │   └── index.js
+        │   ├── withBaseUnits/                   # (Ready for sibling variant)
+        │   └── all/
+        ├── Unit/
+        │   └── all/
+        └── Ledger/
+            └── all/</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 5: In/Local Coding Standard -->
+      <section class="docs-section" id="conventions">
+        <div class="section-header">
+          <i class="bi bi-braces-asterisk section-icon"></i>
+          <h3 class="section-title">5. Parameter Naming Convention: in and local</h3>
+        </div>
+        <div class="section-body">
+          <p>
+            All JavaScript functions strictly adhere to the project's explicit input traceability pattern:
+          </p>
+
+          <div class="code-box">
+            <div class="code-header">
+              <span>Standard Javascript Function Pattern</span>
+              <span>Convention Rule</span>
+            </div>
+            <pre class="code-pre"><span style="color:#6ee7b7">// 1. Functions accept a single configuration object with 'in'-prefixed keys</span>
+<span style="color:#93c5fd">export function</span> <span style="color:#fbbf24">fetchStockItemsWithBatches</span>({ <span style="color:#f472b6">inCompany</span>, <span style="color:#f472b6">inFilterOptions</span> }) {
+    <span style="color:#6ee7b7">// 2. Immediately map 'in' parameters to 'local' variables at the top</span>
+    <span style="color:#93c5fd">const</span> localCompany = inCompany;
+    <span style="color:#93c5fd">const</span> localFilterOptions = inFilterOptions;
+
+    <span style="color:#6ee7b7">// 3. Exclusively use 'local' variables throughout the function body</span>
+    <span style="color:#93c5fd">const</span> url = <span style="color:#a5f3fc">`/ws/StockItem.withBatches?company=${encodeURIComponent(localCompany)}`</span>;
+    <span style="color:#93c5fd">return</span> fetch(url);
+}</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 6: Interactive Live Sandbox -->
+      <section class="docs-section" id="playground">
+        <div class="section-header">
+          <i class="bi bi-terminal-fill section-icon"></i>
+          <h3 class="section-title">6. Interactive API Sandbox</h3>
+        </div>
+        <div class="section-body">
+          <p>
+            Test the live cloud server endpoints directly from this documentation page:
+          </p>
+
+          <div class="playground-box">
+            <div class="playground-controls">
+              <label style="font-size:0.85rem; color:var(--text-muted);">Company:</label>
+              <input type="text" class="input-playground" id="pgCompany" value="mani9">
+
+              <button class="btn-test" id="btnTestBatches">
+                <i class="bi bi-play-fill"></i> /ws/StockItem.withBatches
+              </button>
+              <button class="btn-test" id="btnTestUnits">
+                <i class="bi bi-play-fill"></i> /ws/Unit.all
+              </button>
+              <button class="btn-test" id="btnTestCompany">
+                <i class="bi bi-play-fill"></i> /company
+              </button>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+              <span id="pgStatus" style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">Status: Ready</span>
+              <span id="pgTime" style="font-size:0.8rem; color:var(--accent-cyan); font-family:var(--font-mono);"></span>
+            </div>
+
+            <pre class="playground-result" id="pgOutput">// Select an endpoint above to run a live test...</pre>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    // Interactive Playground Logic following { inParam } convention
+    function updatePlaygroundResult({ inStatus, inDuration, inData }) {
+        const localStatus = inStatus;
+        const localDuration = inDuration;
+        const localData = inData;
+
+        const statusEl = document.getElementById("pgStatus");
+        const timeEl = document.getElementById("pgTime");
+        const outputEl = document.getElementById("pgOutput");
+
+        if (statusEl) statusEl.textContent = `Status: ${localStatus}`;
+        if (timeEl) timeEl.textContent = localDuration ? `${localDuration}ms` : "";
+        if (outputEl) {
+            outputEl.textContent = typeof localData === "string" ? localData : JSON.stringify(localData, null, 2);
+        }
+    }
+
+    async function executeApiTest({ inUrl }) {
+        const localUrl = inUrl;
+        const startTime = performance.now();
+        updatePlaygroundResult({ inStatus: "Requesting...", inDuration: null, inData: `GET ${localUrl}...` });
+
+        try {
+            const res = await fetch(localUrl);
+            const duration = Math.round(performance.now() - startTime);
+            const data = await res.json();
+            updatePlaygroundResult({ inStatus: `${res.status} ${res.statusText}`, inDuration: duration, inData: data });
+        } catch (err) {
+            const duration = Math.round(performance.now() - startTime);
+            updatePlaygroundResult({ 
+                inStatus: "Fetch Error", 
+                inDuration: duration, 
+                inData: `Error: ${err.message}\n(Ensure tally-cloud-server is running on port 9011)` 
+            });
+        }
+    }
+
+    // Bindings
+    document.getElementById("btnTestBatches")?.addEventListener("click", () => {
+        const company = document.getElementById("pgCompany")?.value || "mani9";
+        executeApiTest({ inUrl: `/ws/StockItem.withBatches?company=${encodeURIComponent(company)}` });
+    });
+
+    document.getElementById("btnTestUnits")?.addEventListener("click", () => {
+        executeApiTest({ inUrl: `/ws/Unit.all` });
+    });
+
+    document.getElementById("btnTestCompany")?.addEventListener("click", () => {
+        executeApiTest({ inUrl: `/company` });
+    });
+  </script>
+</body>
+
+</html>

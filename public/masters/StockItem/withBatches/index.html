@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stock Items with Batches - Tally Cloud</title>
+  
+  <script>
+    if (!location.pathname.endsWith('/') && !location.pathname.endsWith('.html')) {
+      location.replace(location.pathname + '/' + location.search + location.hash);
+    }
+  </script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-section">
+        <div class="brand-logo">
+          <i class="bi bi-boxes"></i>
+        </div>
+        <div class="brand-info">
+          <h1>
+            Stock Items 
+            <span class="badge-tag">withBatches</span>
+          </h1>
+          <div class="breadcrumb-nav">
+            <a href="/">Home</a> / 
+            <a href="/docs/">Docs</a> / 
+            <span>masters</span> / 
+            <span>StockItem</span> / 
+            <strong>withBatches</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="status-indicator" id="connectionStatus">
+          <span class="status-dot"></span>
+          <span id="statusText">Ready</span>
+        </div>
+        <a href="/docs/" class="btn-docs-link">
+          <i class="bi bi-journal-text"></i> Architecture Story Docs
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-wrapper">
+    <!-- Controls Bar -->
+    <section class="control-card">
+      <div class="control-inputs">
+        <div class="input-group-custom">
+          <span class="input-label"><i class="bi bi-building me-1"></i> Company</span>
+          <input type="text" id="companyInput" placeholder="e.g. mani9" value="mani9">
+        </div>
+
+        <button type="button" class="btn-fetch" id="btnFetch">
+          <i class="bi bi-arrow-repeat"></i>
+          <span>Fetch Batches</span>
+        </button>
+
+        <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; color:var(--text-muted); cursor:pointer;">
+          <input type="checkbox" id="chkHasBatchesOnly">
+          <span id="lblHasBatches">Only items with batches</span>
+        </label>
+      </div>
+
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input type="text" id="searchInput" placeholder="Search item, batch, or godown...">
+      </div>
+    </section>
+
+    <!-- KPI Metrics Strip -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon icon-blue">
+          <i class="bi bi-box-seam"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">Total Stock Items</div>
+          <div class="stat-value" id="statTotalItems">-</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-emerald">
+          <i class="bi bi-layers-half"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">Items With Batches</div>
+          <div class="stat-value" id="statItemsWithBatches">-</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-cyan">
+          <i class="bi bi-tags"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">Total Batch Lots</div>
+          <div class="stat-value" id="statTotalBatches">-</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-amber">
+          <i class="bi bi-geo-alt"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">Distinct Godowns</div>
+          <div class="stat-value" id="statTotalGodowns">-</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- View Switcher Tabs -->
+    <nav class="view-tabs">
+      <button class="tab-btn active" data-tab="tableView" id="tabTable">
+        <i class="bi bi-table"></i> Table & Batches View
+      </button>
+      <button class="tab-btn" data-tab="jsonView" id="tabJson">
+        <i class="bi bi-code-slash"></i> Raw JSON Explorer
+      </button>
+    </nav>
+
+    <!-- Table Container -->
+    <section id="tableView" class="data-card">
+      <div class="table-responsive">
+        <table class="custom-table" id="stockItemsTable">
+          <thead>
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th style="width: 250px;">Stock Item Name</th>
+              <th style="width: 100px;">Base UOM</th>
+              <th>Batch Allocations (Batch Name &bull; Godown &bull; Balance &bull; Rate &bull; Value)</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr>
+              <td colspan="4">
+                <div class="empty-state">
+                  <i class="bi bi-cloud-arrow-down"></i>
+                  <p>Click <strong>"Fetch Batches"</strong> above to load data from Tally via Cloud Server WebSocket.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Raw JSON Container -->
+    <section id="jsonView" class="data-card" style="display: none; padding: 1rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.75rem;">
+        <span style="font-size:0.85rem; color:var(--text-muted);">Formatted JSON Response from <code>/ws/StockItem.withBatches</code></span>
+        <button id="btnCopyJson" class="btn-docs-link" style="cursor:pointer;">
+          <i class="bi bi-clipboard"></i> Copy JSON
+        </button>
+      </div>
+      <pre class="json-viewer-container" id="jsonViewerContent">No data fetched yet.</pre>
+    </section>
+  </main>
+
+  <!-- ES Module Script -->
+  <script type="module" src="./index.js"></script>
+</body>
+
+</html>

@@ -3,7 +3,7 @@ import { dispatchCommand } from "./dispatchCommand.js";
 
 export const lastRouter = Router();
 
-router.get("/", (req, res) => {
+lastRouter.get("/", (req, res) => {
     dispatchCommand({
         inReq: req,
         inRes: res,
