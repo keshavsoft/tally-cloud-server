@@ -1,5 +1,5 @@
 import companyPull from "./companyDropdown.js";
-// import unitsPull from "./js/units/index.js";
+import unitsPull from "./js/units/index.js";
 
 import spec from "./spec.json" with { type: "json" };
 
@@ -53,15 +53,15 @@ const startFunc = () => {
             const company = jFLocalcompanySelect();
             // console.log("company : ", company);
 
-            const fetchUrl = `/v2/ws/masters.StockItem.withBatches?company=${company}`;
+            const fetchUrl1 = `/v2/ws/masters.StockItem.withBatches?company=${company}`;
+
+            const fetchUrl = `/v2/ws/masters.Unit.all?company=${company}`;
 
             const data = await fetchData(fetchUrl);
 
-            window.ks.jsonRenderers.renderToDom({
-                flavor: "simple",
-                data: data.data,
-                columns: ["itemName", "baseUnit"],
-                targetHtmlId: "ksContainerId"
+            unitsPull({
+                inData: data.data,
+                inTargetHtmlId: "ksContainerId"
             });
         });
     } catch (err) {

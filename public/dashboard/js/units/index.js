@@ -1,15 +1,15 @@
-import { render } from "https://keshavsoft.github.io/json-render-table/dist/v8/min.js";
+// import { render } from "https://keshavsoft.github.io/json-render-table/dist/v8/min.js";
 
 import stockItems from './stockItems.json' with {type: 'json'};
 
-const startFunc = async ({ inTargetHtmlId, inJsonUrl }) => {
+const startFunc = async ({ inTargetHtmlId, inJsonUrl, inData }) => {
     const localTargetHtmlId = inTargetHtmlId;
     const localJsonUrl = inJsonUrl;
 
     try {
-        render({
+        window.ks.jsonRenderers.renderToDom({
             flavor: "simple",
-            data: stockItems,
+            data: inData,
             columns: ["itemName", "baseUnit"],
             targetHtmlId: localTargetHtmlId
         });
