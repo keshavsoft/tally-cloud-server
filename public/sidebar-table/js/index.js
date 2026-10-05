@@ -1,7 +1,7 @@
 import { default as compile } from "https://keshavsoft.github.io/json-to-spec/dist/v23/min.js";
 import companyPull from "./companyDropdown.js";
-import spec from "./spec.json" with { type: "json" };
-import dataJson from "./data.json" with { type: "json" };
+import spec from "../json/spec.json" with { type: "json" };
+import dataJson from "../json/data.json" with { type: "json" };
 
 async function fetchData(url) {
     try {
@@ -52,7 +52,7 @@ const startFunc = () => {
             return;
         }
 
-        // 1. Render Left Menu from spec.json (sidebar config)
+        // 1. Render Left Menu from json/spec.json (sidebar config)
         const sidebarSpec = spec.sidebar || (Array.isArray(spec) ? spec[0] : spec);
         const compiledSidebarSpec = compileWithJsonToSpec({
             inSpecJson: sidebarSpec,
@@ -73,7 +73,7 @@ const startFunc = () => {
             }
         }
 
-        // 2. Render Table from spec.json (table config) using data.json
+        // 2. Render Table from json/spec.json (table config) using json/data.json
         const tableSpec = spec.table || (Array.isArray(spec) ? spec[1] : null);
         if (tableSpec) {
             const compiledTableSpec = compileWithJsonToSpec({
