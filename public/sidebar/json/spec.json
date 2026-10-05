@@ -1,5 +1,5 @@
-[
-    {
+{
+    "sidebar": {
         "tagName": "div",
         "attributes": {
             "class": "sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary"
@@ -81,7 +81,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Dashboard"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Dashboard"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -114,7 +117,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Orders"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Orders"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -147,7 +153,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Products"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Products"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -180,7 +189,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Customers"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Customers"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -213,7 +225,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Reports"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Reports"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -246,7 +261,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Integrations"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Integrations"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -261,7 +279,7 @@
                                 "children": [
                                     {
                                         "tagName": "span",
-                                        "textContent": "Masters"
+                                        "textContent": "Saved reports"
                                     },
                                     {
                                         "tagName": "a",
@@ -325,7 +343,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Units"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Units"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -358,7 +379,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Last quarter"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Last quarter"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -391,7 +415,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Social engagement"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Social engagement"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -424,7 +451,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Year-end sale"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Year-end sale"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -471,7 +501,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Settings"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Settings"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -504,7 +537,10 @@
                                                             }
                                                         ]
                                                     },
-                                                    "Sign out"
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Sign out"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -517,4 +553,4 @@
             }
         ]
     }
-]
+}
