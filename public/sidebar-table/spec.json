@@ -1,0 +1,657 @@
+{
+    "sidebar": {
+        "tagName": "div",
+        "attributes": {
+            "class": "sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary"
+        },
+        "children": [
+            {
+                "tagName": "div",
+                "attributes": {
+                    "class": "offcanvas-md offcanvas-end bg-body-tertiary",
+                    "tabindex": "-1",
+                    "id": "sidebarMenu",
+                    "aria-labelledby": "sidebarMenuLabel"
+                },
+                "children": [
+                    {
+                        "tagName": "div",
+                        "attributes": {
+                            "class": "offcanvas-header"
+                        },
+                        "children": [
+                            {
+                                "tagName": "h5",
+                                "attributes": {
+                                    "class": "offcanvas-title",
+                                    "id": "sidebarMenuLabel"
+                                },
+                                "textContent": "Company name"
+                            },
+                            {
+                                "tagName": "button",
+                                "attributes": {
+                                    "type": "button",
+                                    "class": "btn-close",
+                                    "data-bs-dismiss": "offcanvas",
+                                    "data-bs-target": "#sidebarMenu",
+                                    "aria-label": "Close"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "tagName": "div",
+                        "attributes": {
+                            "class": "offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto"
+                        },
+                        "children": [
+                            {
+                                "tagName": "ul",
+                                "attributes": {
+                                    "class": "nav flex-column"
+                                },
+                                "children": [
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2 active",
+                                                    "aria-current": "page",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#house-fill"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Dashboard"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#file-earmark"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Orders"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#cart"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Products"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#people"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Customers"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#graph-up"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Reports"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#puzzle"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Integrations"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tagName": "h6",
+                                "attributes": {
+                                    "class": "sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
+                                },
+                                "children": [
+                                    {
+                                        "tagName": "span",
+                                        "textContent": "Saved reports"
+                                    },
+                                    {
+                                        "tagName": "a",
+                                        "attributes": {
+                                            "class": "link-secondary",
+                                            "href": "#",
+                                            "aria-label": "Add a new report"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "svg",
+                                                "attributes": {
+                                                    "class": "bi",
+                                                    "aria-hidden": "true"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "use",
+                                                        "attributes": {
+                                                            "xlink:href": "#plus-circle"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tagName": "ul",
+                                "attributes": {
+                                    "class": "nav flex-column mb-auto"
+                                },
+                                "children": [
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#",
+                                                    "id": "unitsSideId"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#file-earmark-text"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Units"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#file-earmark-text"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Last quarter"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#file-earmark-text"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Social engagement"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#file-earmark-text"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Year-end sale"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tagName": "hr",
+                                "attributes": {
+                                    "class": "my-3"
+                                }
+                            },
+                            {
+                                "tagName": "ul",
+                                "attributes": {
+                                    "class": "nav flex-column mb-auto"
+                                },
+                                "children": [
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#gear-wide-connected"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Settings"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#door-closed"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Sign out"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "table": {
+        "tagName": "div",
+        "attributes": {
+            "class": "table-responsive small mt-4"
+        },
+        "children": [
+            {
+                "tagName": "h2",
+                "attributes": {
+                    "class": "h3 mb-3"
+                },
+                "textContent": "Section title"
+            },
+            {
+                "tagName": "table",
+                "attributes": {
+                    "class": "table table-striped table-sm"
+                },
+                "children": [
+                    {
+                        "tagName": "thead",
+                        "children": [
+                            {
+                                "tagName": "tr",
+                                "children": [
+                                    {
+                                        "tagName": "th",
+                                        "attributes": {
+                                            "scope": "col"
+                                        },
+                                        "textContent": "#"
+                                    },
+                                    {
+                                        "tagName": "th",
+                                        "attributes": {
+                                            "scope": "col"
+                                        },
+                                        "textContent": "Header"
+                                    },
+                                    {
+                                        "tagName": "th",
+                                        "attributes": {
+                                            "scope": "col"
+                                        },
+                                        "textContent": "Header"
+                                    },
+                                    {
+                                        "tagName": "th",
+                                        "attributes": {
+                                            "scope": "col"
+                                        },
+                                        "textContent": "Header"
+                                    },
+                                    {
+                                        "tagName": "th",
+                                        "attributes": {
+                                            "scope": "col"
+                                        },
+                                        "textContent": "Header"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "tagName": "tbody",
+                        "jsonToSpec": {
+                            "operation": "loopArray",
+                            "source": "data",
+                            "template": {
+                                "tagName": "tr",
+                                "children": [
+                                    {
+                                        "tagName": "td",
+                                        "textContent": "${col1}"
+                                    },
+                                    {
+                                        "tagName": "td",
+                                        "textContent": "${col2}"
+                                    },
+                                    {
+                                        "tagName": "td",
+                                        "textContent": "${col3}"
+                                    },
+                                    {
+                                        "tagName": "td",
+                                        "textContent": "${col4}"
+                                    },
+                                    {
+                                        "tagName": "td",
+                                        "textContent": "${col5}"
+                                    }
+                                ]
+                            }
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    }
+}
