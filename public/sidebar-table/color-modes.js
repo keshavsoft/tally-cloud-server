@@ -1,1 +1,0 @@
-// Theme mode switcher removed
