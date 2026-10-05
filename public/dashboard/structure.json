@@ -1,0 +1,18 @@
+{
+    "tagName": "select",
+    "attributes": {
+        "id": "companies"
+    },
+    "jsonToSpec": {
+        "operation": "loopArray",
+        "source": "companies",
+        "template": {
+            "tagName": "option",
+            "attributes": {
+                "value": "${}"
+            },
+            "textContent": "${}"
+        }
+    },
+    "children": []
+}

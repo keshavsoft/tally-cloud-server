@@ -987,7 +987,8 @@
                                                                 "tagName": "a",
                                                                 "attributes": {
                                                                     "class": "nav-link d-flex align-items-center gap-2",
-                                                                    "href": "#"
+                                                                    "href": "#",
+                                                                    "id": "withBatchesSideId"
                                                                 },
                                                                 "children": [
                                                                     {
@@ -1005,7 +1006,7 @@
                                                                             }
                                                                         ]
                                                                     },
-                                                                    "Last quarter"
+                                                                    "withBatches"
                                                                 ]
                                                             }
                                                         ]
@@ -1186,13 +1187,14 @@
                                     {
                                         "tagName": "div",
                                         "attributes": {
-                                            "class": "btn-toolbar mb-2 mb-md-0"
+                                            "class": "btn-toolbar mb-2 mb-md-0",
+                                            "id": "btn-toolbar-id"
                                         },
                                         "children": [
                                             {
                                                 "tagName": "select",
                                                 "attributes": {
-                                                    "id": "companySelect",
+                                                    "id": "companySelect1",
                                                     "class": "form-select",
                                                     "style": "width: 200px;"
                                                 },

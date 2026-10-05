@@ -23,7 +23,7 @@ async function fetchData(url) {
         // Captures network failures or thrown errors from above
         console.error("Fetch operation failed:", error);
     }
-}
+};
 
 // Usage:
 
@@ -36,6 +36,23 @@ let jFLocalcompanySelect = () => {
     };
 };
 
+const withBatchesSideId = () => {
+    let jVarLocalunitsSideId = document.getElementById('withBatchesSideId');
+
+    jVarLocalunitsSideId.addEventListener("click", async (event) => {
+        const company = jFLocalcompanySelect();
+
+        const fetchUrl = `/v2/ws/masters.StockItem.withBatches?company=${company}`;
+
+        const data = await fetchData(fetchUrl);
+
+        unitsPull({
+            inData: data.data,
+            inTargetHtmlId: "ksContainerId"
+        });
+    });
+};
+
 const startFunc = () => {
     try {
         const createDomElement = window.ks.jsonToTag.buildSpecElement(spec);
@@ -46,6 +63,7 @@ const startFunc = () => {
         cont1.prepend(...createDomElement);
 
         companyPull();
+        withBatchesSideId();
 
         let jVarLocalunitsSideId = document.getElementById('unitsSideId');
 

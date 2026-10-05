@@ -1,3 +1,24 @@
+import structure from "./structure.json" with {type: "json"};
+
+const render = (structure, data) => {
+    let specAsJsonToDom = window.ks.jsonToSpec.buildSpecElement(structure, data);
+    console.log("specAsJsonToDom : ", specAsJsonToDom);
+
+    if (!("tagName" in specAsJsonToDom)) {
+        specAsJsonToDom = specAsJsonToDom.children;
+    };
+
+    const container = document.getElementById("companySelect");
+
+    if (container) container.innerHTML = "";
+
+    const content = window.ks.jsonToTag.buildSpecElement(specAsJsonToDom);
+    container.append(content);
+
+    console.log("content : ", content);
+
+};
+
 function ensureCompanySelect(elementId) {
     const target = document.getElementById(elementId);
     if (!target) return null;
@@ -39,7 +60,7 @@ function populateCompanySelect(selectElement, companyNames) {
     });
 
     selectElement.replaceChildren(...options);
-}
+};
 
 function ensureFallbackCompany(selectElement, companyName) {
     if (selectElement.options.length > 0) return;
@@ -48,7 +69,8 @@ function ensureFallbackCompany(selectElement, companyName) {
     option.value = companyName;
     option.textContent = companyName;
     selectElement.append(option);
-}
+};
+
 /**
  * Shared Dynamic Company Dropdown Loader
  * Queries /v2/ws/company and fills an existing <select> or select mount point.
@@ -76,26 +98,26 @@ const startFunc = async ({
         }
 
         const payload = await response.json();
-        const companyNames = readCompanyList(payload).map(readCompanyName).filter(Boolean);
+        console.log("payload--- : ", payload);
+        // debugger
+        const companyNames = readCompanyList(payload.data.companies).map(readCompanyName).filter(Boolean);
 
         const uniqueCompanies = [...new Set(companyNames)];
 
         if (uniqueCompanies.length > 0) {
-            const saved = localStorage.getItem("selectedTallyCompany");
-            if (saved && uniqueCompanies.includes(saved)) {
-                selectedValue = saved;
-            } else if (uniqueCompanies.includes(localDefault)) {
-                selectedValue = localDefault;
-            } else {
-                selectedValue = uniqueCompanies[0];
-            }
+            console.log("uniqueCompanies:", uniqueCompanies);
 
-            populateCompanySelect(selectEl, uniqueCompanies);
-            selectEl.value = selectedValue;
-        }
+            window.ks.jsonRenderers.renderToDom({
+                type: "select", appendPosition: "prepend",
+                data: uniqueCompanies,
+                targetHtmlId: "btn-toolbar-id"
+            });
+
+            // render(structure, { companies: uniqueCompanies });
+        };
     } catch (err) {
         console.warn("Could not load dynamic company list from /v2/ws/company:", err);
-    }
+    };
 
     ensureFallbackCompany(selectEl, localDefault);
 
