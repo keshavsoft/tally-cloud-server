@@ -63,8 +63,7 @@
                                                 "attributes": {
                                                     "class": "nav-link d-flex align-items-center gap-2 active",
                                                     "aria-current": "page",
-                                                    "href": "#",
-                                                    "onclick": "event.preventDefault(); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); this.classList.add('active');"
+                                                    "href": "#"
                                                 },
                                                 "children": [
                                                     {
@@ -110,8 +109,7 @@
                                                 "tagName": "a",
                                                 "attributes": {
                                                     "class": "nav-link d-flex align-items-center gap-2",
-                                                    "href": "#",
-                                                    "onclick": "event.preventDefault(); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); this.classList.add('active');"
+                                                    "href": "#"
                                                 },
                                                 "children": [
                                                     {

@@ -1,5 +1,5 @@
-import compile from "https://keshavsoft.github.io/json-to-spec/dist/v23/min.js";
-import { specToDom, buildSpecElement } from "https://keshavsoft.github.io/json-to-dom/dist/v31/min.js";
+import { compile } from "https://keshavsoft.github.io/json-to-spec/dist/v1/min.js";
+import { buildSpecElement } from "https://keshavsoft.github.io/json-to-dom/dist/v16/min.js";
 import companyPull from "./companyDropdown.js";
 
 // Blueprint & Data Payload
@@ -17,16 +17,11 @@ const dataPayload = {
 // 1. Compile structure + data into spec
 const spec = compile({
     inStructure: structureBlueprint,
-    inData: dataPayload,
-    specJson: structureBlueprint,
-    dataJson: dataPayload
+    inData: dataPayload
 });
 
 // 2. Render directly via json-to-dom
-const buildFunc = buildSpecElement || specToDom;
-const domNode = buildFunc({ inSpec: spec, spec });
-const app = document.getElementById("app") || document.getElementById("sidebarContainer");
-app.replaceChildren(...[domNode].flat().filter(Boolean));
+const domNode = buildSpecElement({ inSpec: spec });
+document.getElementById("app").appendChild(domNode);
 
 companyPull();
-

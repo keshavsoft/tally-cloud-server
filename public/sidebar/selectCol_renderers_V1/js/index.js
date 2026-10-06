@@ -23,5 +23,13 @@ const app = document.getElementById("sidebarContainer");
 app.querySelector(".sidebar")?.remove();
 app.prepend(...[domNode].flat().filter(Boolean));
 
-companyPull();
+// 3. Handle active selection & company dropdown
+app.querySelectorAll(".nav-link").forEach(link => {
+    link.onclick = (e) => {
+        if (!link.getAttribute("href") || link.getAttribute("href") === "#") e.preventDefault();
+        app.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+    };
+});
 
+companyPull();
