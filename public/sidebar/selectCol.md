@@ -18,7 +18,7 @@ Dynamic, JSON-driven sidebar navigation with Bootstrap and company dropdown.
 
 ## How to Check
 1. **Open URL**:
-   `http://localhost:9011/sidebar/sidebar-selectCol/index.html`
+   `http://localhost:9011/sidebar/selectCol/index.html`
 2. **Verify Dynamic Sidebar**:
    - Menu links (`Orders`, `Customers`, `Keshavsoft`) render from `spec.json`.
 3. **Verify Active Selection**:
