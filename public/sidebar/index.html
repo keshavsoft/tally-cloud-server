@@ -173,6 +173,47 @@
             background: rgba(255, 255, 255, 0.1);
             color: #ffffff;
         }
+
+        .build-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-left: 3px solid #6366f1;
+            border-radius: 0.6rem;
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .build-box.featured-box {
+            border-left-color: #10b981;
+            background: rgba(16, 185, 129, 0.06);
+        }
+
+        .build-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #94a3b8;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .build-code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.82rem;
+            color: #e2e8f0;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        .build-detail {
+            font-size: 0.73rem;
+            color: #94a3b8;
+            margin-top: 0.2rem;
+            line-height: 1.3;
+        }
     </style>
 </head>
 
@@ -205,7 +246,7 @@
         <div class="row g-4" id="cardsContainer">
 
             <!-- 1. selectCol_renderers (Featured / Latest) -->
-            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol_renderers renderers v5 unified json-renderers minimal esm">
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol_renderers renderers v5 unified json-renderers json-to-spec json-to-tag minimal esm">
                 <div class="card h-100 nav-card featured p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <span class="folder-pill">selectCol_renderers/</span>
@@ -214,9 +255,16 @@
                         </span>
                     </div>
                     <h5 class="fw-bold text-white mt-2 mb-1">selectCol_renderers</h5>
-                    <p class="text-secondary small mb-3 flex-grow-1">
-                        Unified <code>json-renderers</code> bundle. Compiles structure via <code>jsonToSpec</code> and creates DOM via <code>jsonToTag</code> with minimal ~35-line ES module.
+                    <p class="text-secondary small mb-3">
+                        Unified bundle with minimal ~35-line ES module. Native SVG namespacing & Bootstrap offcanvas.
                     </p>
+                    <div class="build-box featured-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-success"></i> How It Builds
+                        </div>
+                        <div class="build-code text-success-emphasis">json-renderers (v13 bundle)</div>
+                        <div class="build-detail"><code>window.ks.jsonToSpec</code> (compile) + <code>window.ks.jsonToTag</code> (DOM builder)</div>
+                    </div>
                     <div class="d-flex flex-wrap gap-1 mb-3">
                         <span class="tag-pill">json-renderers v13</span>
                         <span class="tag-pill">Minimal Code</span>
@@ -233,7 +281,41 @@
                 </div>
             </div>
 
-            <!-- 2. selectCol_V4 -->
+            <!-- 2. selectCol (Original) -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol baseline original dynamic bootstrap json-to-spec json-to-dom spectodom">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol/</span>
+                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2 py-1 small">Baseline</span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol</h5>
+                    <p class="text-secondary small mb-3">
+                        The baseline sidebar project with Bootstrap shell, SVG icon symbols, and responsive offcanvas container.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-dom (v31)</div>
+                        <div class="build-detail"><code>compile()</code> blueprint + <code>buildSpecElement()</code> / <code>specToDom()</code> DOM mount</div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-dom v31</span>
+                        <span class="tag-pill">Bootstrap v5.3</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. selectCol_V4 -->
             <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol_v4 v4 minimal json-to-tag json-to-spec cdn">
                 <div class="card h-100 nav-card p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -241,12 +323,20 @@
                         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2 py-1 small">v4</span>
                     </div>
                     <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V4</h5>
-                    <p class="text-secondary small mb-3 flex-grow-1">
-                        Minimal 35-line implementation importing <code>json-to-spec v23</code> and <code>json-to-tag v9</code> directly via CDN.
+                    <p class="text-secondary small mb-3">
+                        Minimal 35-line implementation with direct CDN imports and clean native SVG node assembly.
                     </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9)</div>
+                        <div class="build-detail">Direct CDN ES module imports; concise 35-line native DOM compilation</div>
+                    </div>
                     <div class="d-flex flex-wrap gap-1 mb-3">
                         <span class="tag-pill">json-to-tag v9</span>
                         <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">CDN ESM</span>
                     </div>
                     <div class="d-flex gap-2 mt-auto">
                         <a href="./selectCol_V4/index.html" class="btn-launch flex-grow-1 justify-content-center">
@@ -259,18 +349,26 @@
                 </div>
             </div>
 
-            <!-- 3. selectCol_V3 -->
-            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol_v3 v3 spectodom native custom builder">
+            <!-- 4. selectCol_V3 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol_v3 v3 spectodom native custom builder json-to-spec">
                 <div class="card h-100 nav-card p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <span class="folder-pill">selectCol_V3/</span>
                         <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">v3</span>
                     </div>
                     <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V3</h5>
-                    <p class="text-secondary small mb-3 flex-grow-1">
-                        Uses a lightweight custom native DOM builder (<code>specToDom</code>) with SVG namespace support and interactive active links.
+                    <p class="text-secondary small mb-3">
+                        Zero extra DOM libraries: uses an inline recursive tag builder with SVG xlink support.
                     </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + Native specToDom()</div>
+                        <div class="build-detail">Compiles via CDN; renders DOM using an internal 20-line recursive walker</div>
+                    </div>
                     <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec v23</span>
                         <span class="tag-pill">Native specToDom</span>
                         <span class="tag-pill">Zero Extra Libs</span>
                     </div>
@@ -285,20 +383,28 @@
                 </div>
             </div>
 
-            <!-- 4. selectCol_V2 -->
-            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol_v2 v2 compilation helper normalization">
+            <!-- 5. selectCol_V2 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol_v2 v2 compilation helper normalization json-to-spec json-to-tag">
                 <div class="card h-100 nav-card p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <span class="folder-pill">selectCol_V2/</span>
                         <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">v2</span>
                     </div>
                     <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V2</h5>
-                    <p class="text-secondary small mb-3 flex-grow-1">
+                    <p class="text-secondary small mb-3">
                         Features resilient compiler normalization supporting raw strings and object menu item mappings.
                     </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9)</div>
+                        <div class="build-detail">Includes <code>compileWithJsonToSpec</code> normalization wrapper for menu arrays</div>
+                    </div>
                     <div class="d-flex flex-wrap gap-1 mb-3">
-                        <span class="tag-pill">Normalized Items</span>
-                        <span class="tag-pill">json-to-spec</span>
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-tag v9</span>
+                        <span class="tag-pill">Data Normalizer</span>
                     </div>
                     <div class="d-flex gap-2 mt-auto">
                         <a href="./selectCol_V2/index.html" class="btn-launch flex-grow-1 justify-content-center">
@@ -311,20 +417,28 @@
                 </div>
             </div>
 
-            <!-- 5. selectCol_V1 -->
-            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol_v1 v1 full features units table live">
+            <!-- 6. selectCol_V1 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol_v1 v1 full features units table live json-to-spec json-to-tag json-renderers">
                 <div class="card h-100 nav-card p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <span class="folder-pill">selectCol_V1/</span>
                         <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">v1</span>
                     </div>
                     <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V1</h5>
-                    <p class="text-secondary small mb-3 flex-grow-1">
+                    <p class="text-secondary small mb-3">
                         Comprehensive implementation with dynamic units handler, stock item fetching, and company select dropdown.
                     </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9) + json-renderers (v10)</div>
+                        <div class="build-detail">Sidebar via <code>json-to-tag</code>; live stock unit table rendered via <code>json-renderers</code></div>
+                    </div>
                     <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-tag v9</span>
                         <span class="tag-pill">json-renderers v10</span>
-                        <span class="tag-pill">Live API Data</span>
                     </div>
                     <div class="d-flex gap-2 mt-auto">
                         <a href="./selectCol_V1/index.html" class="btn-launch flex-grow-1 justify-content-center">
@@ -337,46 +451,28 @@
                 </div>
             </div>
 
-            <!-- 6. selectCol (Original) -->
-            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="selectcol baseline original dynamic bootstrap">
-                <div class="card h-100 nav-card p-4">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <span class="folder-pill">selectCol/</span>
-                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2 py-1 small">Baseline</span>
-                    </div>
-                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol</h5>
-                    <p class="text-secondary small mb-3 flex-grow-1">
-                        The baseline sidebar project with Bootstrap 5.3 shell, SVG icon symbols, and responsive offcanvas container.
-                    </p>
-                    <div class="d-flex flex-wrap gap-1 mb-3">
-                        <span class="tag-pill">Baseline</span>
-                        <span class="tag-pill">Bootstrap v5.3</span>
-                    </div>
-                    <div class="d-flex gap-2 mt-auto">
-                        <a href="./selectCol/index.html" class="btn-launch flex-grow-1 justify-content-center">
-                            Open <i class="bi bi-arrow-right"></i>
-                        </a>
-                        <a href="./selectCol/index.html" target="_blank" class="btn-external" title="Open in New Tab">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
             <!-- 7. dashboard -->
-            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="dashboard full batches stock items units table">
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="dashboard full batches stock items units table json-renderers json-to-tag">
                 <div class="card h-100 nav-card p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <span class="folder-pill">dashboard/</span>
                         <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2 py-1 small">Full App</span>
                     </div>
                     <h5 class="fw-bold text-white mt-2 mb-1">dashboard</h5>
-                    <p class="text-secondary small mb-3 flex-grow-1">
+                    <p class="text-secondary small mb-3">
                         Full dashboard page with StockItem batch viewer, units table renderer, and live WebSocket masters sync.
                     </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-warning"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-tag (v9) via json-renderers (v13)</div>
+                        <div class="build-detail"><code>window.ks.jsonToTag.buildSpecElement(spec)</code> from static <code>spec.json</code></div>
+                    </div>
                     <div class="d-flex flex-wrap gap-1 mb-3">
-                        <span class="tag-pill">Stock Items</span>
-                        <span class="tag-pill">Batch Masters</span>
+                        <span class="tag-pill">json-renderers v13</span>
+                        <span class="tag-pill">Stock Batches</span>
+                        <span class="tag-pill">WebSocket API</span>
                     </div>
                     <div class="d-flex gap-2 mt-auto">
                         <a href="./dashboard/index.html" class="btn-launch flex-grow-1 justify-content-center">
@@ -390,19 +486,27 @@
             </div>
 
             <!-- 8. with_table -->
-            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="with_table table datatable data grid sidebar integration">
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="with_table table datatable data grid sidebar integration json-to-spec json-to-tag json-renderers">
                 <div class="card h-100 nav-card p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <span class="folder-pill">with_table/</span>
                         <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">Table View</span>
                     </div>
                     <h5 class="fw-bold text-white mt-2 mb-1">with_table</h5>
-                    <p class="text-secondary small mb-3 flex-grow-1">
+                    <p class="text-secondary small mb-3">
                         Sidebar layout combined with dynamic table rendering for inventory and unit measurements.
                     </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9) + json-renderers</div>
+                        <div class="build-detail">Sidebar built via <code>json-to-tag</code>; table rendered via <code>window.ks.jsonRenderers</code></div>
+                    </div>
                     <div class="d-flex flex-wrap gap-1 mb-3">
-                        <span class="tag-pill">Data Grid</span>
-                        <span class="tag-pill">Interactive Table</span>
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-tag v9</span>
+                        <span class="tag-pill">json-renderers</span>
                     </div>
                     <div class="d-flex gap-2 mt-auto">
                         <a href="./with_table/index.html" class="btn-launch flex-grow-1 justify-content-center">
@@ -416,18 +520,26 @@
             </div>
 
             <!-- 9. simple -->
-            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="simple minimal lightweight sidebar template">
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card" data-tags="simple minimal lightweight sidebar template json-to-spec json-to-tag">
                 <div class="card h-100 nav-card p-4">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <span class="folder-pill">simple/</span>
                         <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">Simple</span>
                     </div>
                     <h5 class="fw-bold text-white mt-2 mb-1">simple</h5>
-                    <p class="text-secondary small mb-3 flex-grow-1">
+                    <p class="text-secondary small mb-3">
                         Clean and minimalist sidebar demonstration with straightforward component compilation.
                     </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9)</div>
+                        <div class="build-detail">Straightforward <code>compile()</code> from <code>spec.json</code> + <code>buildSpecElement()</code> DOM mount</div>
+                    </div>
                     <div class="d-flex flex-wrap gap-1 mb-3">
-                        <span class="tag-pill">Clean</span>
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-tag v9</span>
                         <span class="tag-pill">Standard Spec</span>
                     </div>
                     <div class="d-flex gap-2 mt-auto">
