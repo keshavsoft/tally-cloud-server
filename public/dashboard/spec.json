@@ -1194,7 +1194,7 @@
                                             {
                                                 "tagName": "select",
                                                 "attributes": {
-                                                    "id": "companySelect1",
+                                                    "id": "companySelect",
                                                     "class": "form-select",
                                                     "style": "width: 200px;"
                                                 },

@@ -78,18 +78,11 @@ function ensureFallbackCompany(selectElement, companyName) {
  */
 
 const startFunc = async ({
-    inSelectElementId = "companySelect",
     inDefaultCompany = "mani9",
     inOnChange = null
 } = {}) => {
-    const localSelectId = inSelectElementId;
     const localDefault = inDefaultCompany;
     const localOnChange = inOnChange;
-
-    const selectEl = ensureCompanySelect(localSelectId);
-    if (!selectEl) return localDefault;
-
-    let selectedValue = localDefault;
 
     try {
         const response = await fetch("/v2/ws/company");
@@ -108,9 +101,9 @@ const startFunc = async ({
             console.log("uniqueCompanies:", uniqueCompanies);
 
             window.ks.jsonRenderers.renderToDom({
-                type: "select", appendPosition: "prepend",
+                type: "selectOptionsOnly",
                 data: uniqueCompanies,
-                targetHtmlId: "btn-toolbar-id"
+                targetHtmlId: "companySelect"
             });
 
             // render(structure, { companies: uniqueCompanies });

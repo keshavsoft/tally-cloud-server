@@ -58,7 +58,7 @@ const startFunc = () => {
         const createDomElement = window.ks.jsonToTag.buildSpecElement(spec);
         console.log("createDomElement : ", createDomElement);
         // container.prepend(...createDomElement);
-
+        debugger;
         const cont1 = document.getElementById("body");
         cont1.prepend(...createDomElement);
 
