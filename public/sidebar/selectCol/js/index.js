@@ -1,31 +1,30 @@
-// 1. Import compiler & DOM engine directly via GitHub Pages CDN
-import { compile } from "https://keshavsoft.github.io/json-to-spec/dist/v1/min.js";
-import { buildSpecElement } from "https://keshavsoft.github.io/json-to-dom/dist/v16/min.js";
+// 1. Import compiler & DOM engine directly via CDN (using json-to-dom)
+import compile from "https://keshavsoft.github.io/json-to-spec/dist/v23/min.js";
+import { specToDom, buildSpecElement } from "https://keshavsoft.github.io/json-to-dom/dist/v31/min.js";
 import companyPull from "./companyDropdown.js";
 
 // Data
-const businessDataPayload = {
-    menuItems: [
-        { name: "Orders", icon: "file-earmark" },
-        { name: "Customers", icon: "people" },
-        { name: "Keshavsoft", icon: "file-earmark" }
-    ]
-};
+const menuItems = [
+    { name: "Orders", icon: "file-earmark" },
+    { name: "Customers", icon: "people" },
+    { name: "Keshavsoft", icon: "file-earmark" }
+];
 
 // Fetch Blueprint
 const structureBlueprint = await fetch(new URL("../json/spec.json", import.meta.url)).then(r => r.json());
 
 // 2. Compile structure.json (HOW) + data.json (WHAT) → spec
 const spec = compile({
-    inStructure: structureBlueprint.sidebar || structureBlueprint,
-    inData: businessDataPayload
+    specJson: structureBlueprint.sidebar || structureBlueprint,
+    dataJson: { menuItems }
 });
 
-// 3. Render directly into native browser DOM elements by ID
-const domNode = buildSpecElement({ inSpec: spec });
+// 3. Render directly into native browser DOM elements using json-to-dom
+const buildFunc = buildSpecElement || specToDom;
+const domNode = buildFunc({ inSpec: spec, spec });
 const app = document.getElementById("sidebarContainer");
 app.querySelector(".sidebar")?.remove();
-app.prepend(domNode);
+app.prepend(...[domNode].flat().filter(Boolean));
 
 // 4. Handle active selection & company dropdown
 app.querySelectorAll(".nav-link").forEach(link => {

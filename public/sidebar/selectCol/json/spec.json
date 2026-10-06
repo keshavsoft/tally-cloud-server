@@ -67,10 +67,19 @@
                                                 },
                                                 "children": [
                                                     {
-                                                        "tagName": "i",
+                                                        "tagName": "svg",
                                                         "attributes": {
-                                                            "class": "bi bi-house-fill"
-                                                        }
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#house-fill"
+                                                                }
+                                                            }
+                                                        ]
                                                     },
                                                     {
                                                         "tagName": "span",
@@ -87,39 +96,47 @@
                                 "attributes": {
                                     "class": "nav flex-column"
                                 },
-                                "children": [
-                                    {
-                                        "operation": "iterate",
-                                        "source": "menuItems",
-                                        "template": {
-                                            "tagName": "li",
-                                            "attributes": {
-                                                "class": "nav-item"
-                                            },
-                                            "children": [
-                                                {
-                                                    "tagName": "a",
-                                                    "attributes": {
-                                                        "class": "nav-link d-flex align-items-center gap-2",
-                                                        "href": "#"
-                                                    },
-                                                    "children": [
-                                                        {
-                                                            "tagName": "i",
-                                                            "attributes": {
-                                                                "class": "bi bi-${icon}"
-                                                            }
+                                "jsonToSpec": {
+                                    "operation": "loopArray",
+                                    "source": "menuItems",
+                                    "template": {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
                                                         },
-                                                        {
-                                                            "tagName": "span",
-                                                            "textContent": "${name}"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#${icon}"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "${name}"
+                                                    }
+                                                ]
+                                            }
+                                        ]
                                     }
-                                ]
+                                },
+                                "children": []
                             },
                             {
                                 "tagName": "hr",
