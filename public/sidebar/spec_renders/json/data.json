@@ -1,0 +1,7 @@
+{
+    "menuItems": [
+        { "name": "Orders", "icon": "file-earmark" },
+        { "name": "Customers", "icon": "people" },
+        { "name": "Keshavsoft", "icon": "file-earmark" }
+    ]
+}

@@ -246,6 +246,47 @@
         <!-- Subfolder Cards Grid -->
         <div class="row g-4" id="cardsContainer">
 
+            <!-- 0. spec_renders (json-to-spec + json-renderers) -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="spec_renders renderers json-to-spec json-renderers spec-renders ui left menu navigation">
+                <div class="card h-100 nav-card featured p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">spec_renders/</span>
+                        <span
+                            class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2 py-1 small">
+                            <i class="bi bi-stars me-1"></i>New
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">spec_renders</h5>
+                    <p class="text-secondary small mb-3">
+                        Left-side navigation menu with structure compiled via <code>json-to-spec</code> and DOM rendered via <code>json-renderers</code>.
+                    </p>
+                    <div class="build-box featured-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code text-primary-emphasis">json-to-spec + json-renderers</div>
+                        <div class="build-detail"><code>compile()</code> (structure) + <code>window.ks.jsonToTag</code> (DOM builder)</div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec</span>
+                        <span class="tag-pill">json-renderers</span>
+                        <span class="tag-pill">spec.json</span>
+                        <span class="tag-pill">Bootstrap v5.3</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./spec_renders/index.html"
+                            class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./spec_renders/index.html" target="_blank" class="btn-external"
+                            title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <!-- 1. selectCol_renderers (Featured / Latest) -->
             <div class="col-12 col-md-6 col-lg-4 nav-item-card"
                 data-tags="selectcol_renderers renderers v5 unified json-renderers json-to-spec json-to-tag minimal esm">
