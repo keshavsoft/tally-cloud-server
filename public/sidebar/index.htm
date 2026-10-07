@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Showcase Navigator</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --bs-body-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --card-bg: rgba(24, 27, 36, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(99, 102, 241, 0.5);
+        }
+
+        body {
+            background-color: #0b0f19;
+            background-image:
+                radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(236, 72, 153, 0.08) 0px, transparent 50%);
+            min-height: 100vh;
+            color: #f1f5f9;
+        }
+
+        .hero-title {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge-gradient {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.5), 0 0 24px -4px rgba(99, 102, 241, 0.15);
+        }
+
+        .nav-card:hover::before {
+            opacity: 1;
+        }
+
+        .nav-card.featured {
+            border-color: rgba(99, 102, 241, 0.4);
+            background: linear-gradient(180deg, rgba(30, 35, 52, 0.8) 0%, rgba(20, 24, 38, 0.8) 100%);
+        }
+
+        .nav-card.featured::before {
+            opacity: 1;
+        }
+
+        .folder-pill {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.78rem;
+            background: rgba(255, 255, 255, 0.06);
+            color: #94a3b8;
+            padding: 0.25rem 0.6rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tag-pill {
+            font-size: 0.72rem;
+            background: rgba(99, 102, 241, 0.12);
+            color: #a5b4fc;
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            font-weight: 500;
+        }
+
+        .search-box {
+            background: rgba(18, 22, 34, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.75rem;
+            color: #f1f5f9;
+            padding: 0.75rem 1rem 0.75rem 2.85rem;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-box:focus {
+            background: rgba(22, 27, 42, 0.95);
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+            color: #ffffff;
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        .btn-launch {
+            background: #6366f1;
+            border: none;
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 0.6rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-launch:hover {
+            background: #4f46e5;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .btn-external {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            border-radius: 0.6rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-external:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .build-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-left: 3px solid #6366f1;
+            border-radius: 0.6rem;
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .build-box.featured-box {
+            border-left-color: #10b981;
+            background: rgba(16, 185, 129, 0.06);
+        }
+
+        .build-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #94a3b8;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .build-code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.82rem;
+            color: #e2e8f0;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        .build-detail {
+            font-size: 0.73rem;
+            color: #94a3b8;
+            margin-top: 0.2rem;
+            line-height: 1.3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-5">
+        <!-- Header -->
+        <header class="mb-5 text-center">
+            <div class="d-inline-flex align-items-center gap-2 mb-3">
+                <span class="badge badge-gradient px-3 py-2 rounded-pill">
+                    <i class="bi bi-layout-sidebar-inset me-1"></i> Tally Cloud Server
+                </span>
+                <span
+                    class="badge bg-dark-subtle text-light-emphasis border border-secondary-subtle px-3 py-2 rounded-pill">
+                    Sidebar Gallery
+                </span>
+            </div>
+            <h1 class="hero-title display-5 mb-2">Sidebar Implementations</h1>
+            <p class="text-secondary lead mx-auto" style="max-width: 650px;">
+                Directory navigator for all dynamic, JSON-driven sidebar prototypes and build variants.
+            </p>
+
+            <!-- Search Input -->
+            <div class="position-relative mx-auto mt-4" style="max-width: 460px;">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" id="filterInput" class="form-control search-box"
+                    placeholder="Filter by name, library, or feature..." autocomplete="off">
+            </div>
+        </header>
+
+        <!-- Subfolder Cards Grid -->
+        <div class="row g-4" id="cardsContainer">
+
+            <!-- 0. spec_renders (json-to-spec + json-renderers) -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="spec_renders renderers json-to-spec json-renderers spec-renders ui left menu navigation">
+                <div class="card h-100 nav-card featured p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">spec_renders/</span>
+                        <span
+                            class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2 py-1 small">
+                            <i class="bi bi-stars me-1"></i>New
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">spec_renders</h5>
+                    <p class="text-secondary small mb-3">
+                        Left-side navigation menu with structure compiled via <code>json-to-spec</code> and DOM rendered via <code>json-renderers</code>.
+                    </p>
+                    <div class="build-box featured-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code text-primary-emphasis">json-to-spec + json-renderers</div>
+                        <div class="build-detail"><code>compile()</code> (structure) + <code>window.ks.jsonToTag</code> (DOM builder)</div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec</span>
+                        <span class="tag-pill">json-renderers</span>
+                        <span class="tag-pill">spec.json</span>
+                        <span class="tag-pill">Bootstrap v5.3</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./spec_renders/index.html"
+                            class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./spec_renders/index.html" target="_blank" class="btn-external"
+                            title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1. selectCol_renderers (Featured / Latest) -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol_renderers renderers v5 unified json-renderers json-to-spec json-to-tag minimal esm">
+                <div class="card h-100 nav-card featured p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol_renderers/</span>
+                        <span
+                            class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1 small">
+                            <i class="bi bi-stars me-1"></i>Latest
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol_renderers</h5>
+                    <p class="text-secondary small mb-3">
+                        Unified bundle with minimal 27-line ES module. Spec-driven active click handling & native SVG
+                        namespacing.
+                    </p>
+                    <div class="build-box featured-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-success"></i> How It Builds
+                        </div>
+                        <div class="build-code text-success-emphasis">json-renderers (v13 bundle)</div>
+                        <div class="build-detail"><code>json-renderers</code> (compile) +
+                            <code>window.ks.jsonToTag</code> (DOM builder) + spec-level <code>onclick</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-renderers v13</span>
+                        <span class="tag-pill">27 Lines</span>
+                        <span class="tag-pill">Spec-driven Click</span>
+                        <span class="tag-pill">SVG Namespaced</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol_renderers/index.html"
+                            class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol_renderers/index.html" target="_blank" class="btn-external"
+                            title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. selectCol (Original) -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol baseline original dynamic bootstrap json-to-spec json-to-dom spectodom app">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol/</span>
+                        <span
+                            class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2 py-1 small">Baseline</span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol</h5>
+                    <p class="text-secondary small mb-3">
+                        Clean 30-line implementation using json-to-spec and json-to-dom mounted directly into
+                        <code>#app</code>.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-dom (v31)</div>
+                        <div class="build-detail"><code>compile()</code> + <code>buildSpecElement() / specToDom()</code>
+                            into <code>#app</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-dom v31</span>
+                        <span class="tag-pill">#app Mount</span>
+                        <span class="tag-pill">Bootstrap v5.3</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. selectCol_V4 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol_v4 v4 minimal json-to-tag json-to-spec cdn">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol_V4/</span>
+                        <span
+                            class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2 py-1 small">v4</span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V4</h5>
+                    <p class="text-secondary small mb-3">
+                        Minimal 35-line implementation with direct CDN imports and clean native SVG node assembly.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9)</div>
+                        <div class="build-detail">Direct CDN ES module imports; concise 35-line native DOM compilation
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-tag v9</span>
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">CDN ESM</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol_V4/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol_V4/index.html" target="_blank" class="btn-external"
+                            title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. selectCol_V3 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol_v3 v3 spectodom native custom builder json-to-spec">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol_V3/</span>
+                        <span
+                            class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">v3</span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V3</h5>
+                    <p class="text-secondary small mb-3">
+                        Zero extra DOM libraries: uses an inline recursive tag builder with SVG xlink support.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + Native specToDom()</div>
+                        <div class="build-detail">Compiles via CDN; renders DOM using an internal 20-line recursive
+                            walker</div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">Native specToDom</span>
+                        <span class="tag-pill">Zero Extra Libs</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol_V3/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol_V3/index.html" target="_blank" class="btn-external"
+                            title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. selectCol_V2 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol_v2 v2 compilation helper normalization json-to-spec json-to-tag">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol_V2/</span>
+                        <span
+                            class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">v2</span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V2</h5>
+                    <p class="text-secondary small mb-3">
+                        Features resilient compiler normalization supporting raw strings and object menu item mappings.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9)</div>
+                        <div class="build-detail">Includes <code>compileWithJsonToSpec</code> normalization wrapper for
+                            menu arrays</div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-tag v9</span>
+                        <span class="tag-pill">Data Normalizer</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol_V2/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol_V2/index.html" target="_blank" class="btn-external"
+                            title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. selectCol_V1 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol_v1 v1 full features units table live json-to-spec json-to-tag json-renderers">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol_V1/</span>
+                        <span
+                            class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">v1</span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V1</h5>
+                    <p class="text-secondary small mb-3">
+                        Comprehensive implementation with dynamic units handler, stock item fetching, and company select
+                        dropdown.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9) + json-renderers (v10)</div>
+                        <div class="build-detail">Sidebar via <code>json-to-tag</code>; live stock unit table rendered
+                            via <code>json-renderers</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-tag v9</span>
+                        <span class="tag-pill">json-renderers v10</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol_V1/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol_V1/index.html" target="_blank" class="btn-external"
+                            title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. dashboard -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="dashboard full batches stock items units table json-renderers json-to-tag">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">dashboard/</span>
+                        <span
+                            class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2 py-1 small">Full
+                            App</span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">dashboard</h5>
+                    <p class="text-secondary small mb-3">
+                        Full dashboard page with StockItem batch viewer, units table renderer, and live WebSocket
+                        masters sync.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-warning"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-tag (v9) via json-renderers (v13)</div>
+                        <div class="build-detail"><code>window.ks.jsonToTag.buildSpecElement(spec)</code> from static
+                            <code>spec.json</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-renderers v13</span>
+                        <span class="tag-pill">Stock Batches</span>
+                        <span class="tag-pill">WebSocket API</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./dashboard/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./dashboard/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. with_table -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="with_table table datatable data grid sidebar integration json-to-spec json-to-tag json-renderers">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">with_table/</span>
+                        <span
+                            class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">Table
+                            View</span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">with_table</h5>
+                    <p class="text-secondary small mb-3">
+                        Sidebar layout combined with dynamic table rendering for inventory and unit measurements.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9) + json-renderers</div>
+                        <div class="build-detail">Sidebar built via <code>json-to-tag</code>; table rendered via
+                            <code>window.ks.jsonRenderers</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-tag v9</span>
+                        <span class="tag-pill">json-renderers</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./with_table/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./with_table/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. simple -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="simple minimal lightweight sidebar template json-to-spec json-to-tag">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">simple/</span>
+                        <span
+                            class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">Simple</span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">simple</h5>
+                    <p class="text-secondary small mb-3">
+                        Clean and minimalist sidebar demonstration with straightforward component compilation.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">json-to-spec (v23) + json-to-tag (v9)</div>
+                        <div class="build-detail">Straightforward <code>compile()</code> from <code>spec.json</code> +
+                            <code>buildSpecElement()</code> DOM mount</div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-to-spec v23</span>
+                        <span class="tag-pill">json-to-tag v9</span>
+                        <span class="tag-pill">Standard Spec</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./simple/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./simple/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- No Results Found Placeholder -->
+        <div id="noResults" class="text-center py-5 d-none">
+            <i class="bi bi-search fs-1 text-secondary"></i>
+            <h5 class="text-white mt-3">No matching implementations found</h5>
+            <p class="text-secondary">Try searching for keywords like "renderers", "v4", "table", or "native".</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-5 pt-4 text-center text-secondary small border-top border-secondary-subtle">
+            <p class="mb-0">
+                Tally Cloud Server · Port 9011 ·
+                <a href="/dashboard/" class="text-decoration-none text-secondary hover-white">Global Dashboard</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Live Filter Script -->
+    <script>
+        const filterInput = document.getElementById('filterInput');
+        const cards = document.querySelectorAll('.nav-item-card');
+        const noResults = document.getElementById('noResults');
+
+        filterInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const tags = card.getAttribute('data-tags') || '';
+                const match = text.includes(query) || tags.includes(query);
+
+                if (match) {
+                    card.classList.remove('d-none');
+                    visibleCount++;
+                } else {
+                    card.classList.add('d-none');
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('d-none');
+            } else {
+                noResults.classList.add('d-none');
+            }
+        });
+    </script>
+</body>
+
+</html>

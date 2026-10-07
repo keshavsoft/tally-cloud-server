@@ -200,20 +200,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <!-- Modules imported in HTML -->
-    <script type="module">
-        import compile from "https://keshavsoft.github.io/json-to-spec/dist/v23/min.js";
-        import "https://keshavsoft.github.io/json-renderers/dist/v13/min.js";
-
-        window.compile = compile;
-        window.ks = window.ks || {};
-        window.ks.jsonToSpec = {
-            buildSpecElement: (structure, data) => compile({ specJson: structure, dataJson: data })
-        };
-        window.ks.jsonRenderers = {
-            buildSpecElement: (spec) => (window.ks.jsonToTag || window.ks["json-to-tag"]).buildSpecElement(spec)
-        };
-    </script>
+    <!-- json-renderers unified bundle -->
+    <script type="module" src="https://keshavsoft.github.io/json-renderers/dist/v13/min.js"></script>
     <script type="module" src="./js/index.js"></script>
 </body>
 

@@ -1,31 +1,32 @@
-import compile from "https://keshavsoft.github.io/json-to-spec/dist/v23/min.js";
-import "https://keshavsoft.github.io/json-renderers/dist/v13/min.js";
 import companyPull from "./companyDropdown.js";
 
-// Data
-const menuItems = [
-    { name: "Orders", icon: "file-earmark" },
-    { name: "Customers", icon: "people" },
-    { name: "Keshavsoft", icon: "file-earmark" }
-];
+const startFunc = async () => {
+    // Data
+    const menuItems = [
+        { name: "Orders", icon: "file-earmark" },
+        { name: "Customers", icon: "people" },
+        { name: "Keshavsoft", icon: "file-earmark" }
+    ];
 
-// Fetch Blueprint
-const structureBlueprint = await fetch(new URL("../json/spec.json", import.meta.url)).then(r => r.json());
+    // Fetch Blueprint
+    const rawBlueprint = await fetch(new URL("../json/spec.json", import.meta.url)).then(r => r.json());
+    const structureBlueprint = rawBlueprint.sidebar || rawBlueprint;
 
-// 1. Get structure using json-to-spec
-const spec = compile({
-    inStructure: structureBlueprint.sidebar || structureBlueprint,
-    inData: { menuItems },
-    specJson: structureBlueprint.sidebar || structureBlueprint,
-    dataJson: { menuItems }
-});
+    // 1. Get structure using json-to-spec
+    const spec = window.ks.jsonToSpec.buildSpecElement(
+        structureBlueprint,
+        { menuItems }
+    );
 
-// 2. Render DOM using json-renderers
-const domNode = window.ks.jsonToTag.buildSpecElement(spec);
+    // 2. Render DOM using json-renderers
+    const domNode = window.ks.jsonRenderers.buildSpecElement(spec);
 
-// 3. Mount into sidebar container
-const app = document.getElementById("sidebarContainer");
-app.querySelector(".sidebar")?.remove();
-app.prepend(...[domNode].flat().filter(Boolean));
+    // 3. Mount into sidebar container
+    const app = document.getElementById("sidebarContainer");
+    app.querySelector(".sidebar")?.remove();
+    app.prepend(...[domNode].flat().filter(Boolean));
 
-companyPull();
+    companyPull();
+};
+
+startFunc();
