@@ -47,7 +47,7 @@ function readCompanyName(item) {
     if (typeof item === "string") return item.trim();
     if (!item || typeof item !== "object") return "";
 
-    const name = item["@_NAME"] ?? item.name ?? item.NAME ?? item["@NAME"];
+    const name = item["@_NAME"] ?? item.Name ?? item.name ?? item.NAME ?? item["@NAME"];
     return String(name ?? "").trim();
 }
 
@@ -85,15 +85,18 @@ const startFunc = async ({
     const localOnChange = inOnChange;
 
     try {
-        const response = await fetch("/v2/ws/company");
+        const response = await fetch("/v2/ws/tally.company.fetch");
+
+        // http://localhost:9011/v2/ws/tally.company.fetch
+
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
-        }
+        };
 
         const payload = await response.json();
         console.log("payload--- : ", payload);
         // debugger
-        const companyNames = readCompanyList(payload.data.companies).map(readCompanyName).filter(Boolean);
+        const companyNames = readCompanyList(payload.data.Companies).map(readCompanyName).filter(Boolean);
 
         const uniqueCompanies = [...new Set(companyNames)];
 

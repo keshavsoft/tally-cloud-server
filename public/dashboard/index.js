@@ -73,7 +73,7 @@ const startFunc = () => {
 
             const fetchUrl1 = `/v2/ws/masters.StockItem.withBatches?company=${company}`;
 
-            const fetchUrl = `/v2/ws/masters.Unit.all?company=${company}`;
+            const fetchUrl = `/v2/ws/tally.masters.units.all?company=${company}`;
 
             const data = await fetchData(fetchUrl);
 
