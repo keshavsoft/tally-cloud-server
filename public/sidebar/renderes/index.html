@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renderers Showcase Navigator</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --bs-body-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --accent-gradient: linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
+            --card-bg: rgba(24, 27, 36, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(16, 185, 129, 0.5);
+        }
+
+        body {
+            background-color: #0b0f19;
+            background-image:
+                radial-gradient(at 10% 20%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+            min-height: 100vh;
+            color: #f1f5f9;
+        }
+
+        .hero-title {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge-gradient {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.5), 0 0 24px -4px rgba(16, 185, 129, 0.15);
+        }
+
+        .nav-card:hover::before {
+            opacity: 1;
+        }
+
+        .nav-card.featured {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: linear-gradient(180deg, rgba(20, 38, 30, 0.8) 0%, rgba(18, 26, 32, 0.8) 100%);
+        }
+
+        .nav-card.featured::before {
+            opacity: 1;
+        }
+
+        .folder-pill {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.78rem;
+            background: rgba(255, 255, 255, 0.06);
+            color: #94a3b8;
+            padding: 0.25rem 0.6rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .build-box {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0.65rem;
+            padding: 0.75rem 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .build-box.featured-box {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .build-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .build-code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .build-detail {
+            font-size: 0.76rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+
+        .build-detail code {
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 0.1rem 0.35rem;
+            border-radius: 0.3rem;
+            font-size: 0.74rem;
+        }
+
+        .tag-pill {
+            font-size: 0.72rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #cbd5e1;
+            padding: 0.2rem 0.55rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+
+        .btn-launch {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+            font-weight: 500;
+            font-size: 0.85rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 0.6rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-launch:hover {
+            background: #10b981;
+            border-color: #10b981;
+            color: #042f1a;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-external {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            padding: 0.5rem 0.65rem;
+            border-radius: 0.6rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-external:hover {
+            color: #f8fafc;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .search-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            padding: 0.75rem 1.25rem 0.75rem 2.75rem;
+            color: #f8fafc;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+        }
+
+        .search-box:focus {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+            color: #f8fafc;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            border-radius: 9999px;
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-4">
+
+        <!-- Top Navigation Bar -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="../index.html" class="btn-back">
+                <i class="bi bi-arrow-left"></i> Main Showcase
+            </a>
+            <span class="badge badge-gradient rounded-pill px-3 py-2">
+                <i class="bi bi-folder2-open me-1"></i> public/sidebar/renderes/
+            </span>
+        </div>
+
+        <!-- Hero Header -->
+        <header class="text-center mb-5">
+            <div class="d-inline-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1">
+                    <i class="bi bi-cpu-fill me-1"></i> JSON Renderers Hub
+                </span>
+            </div>
+            <h1 class="hero-title display-5 mb-2">Renderers Implementations</h1>
+            <p class="text-secondary lead mx-auto" style="max-width: 650px;">
+                Directory navigator for all JSON-renderers prototypes, selectCol variants, and spec architectures.
+            </p>
+
+            <!-- Search Input -->
+            <div class="position-relative mx-auto mt-4" style="max-width: 460px;">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" id="filterInput" class="form-control search-box"
+                    placeholder="Filter renderers variants by name or tag..." autocomplete="off">
+            </div>
+        </header>
+
+        <!-- Subfolder Cards Grid -->
+        <div class="row g-4" id="cardsContainer">
+
+            <!-- 1. selectCol (Latest / Main) -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol renderers latest v13 json-renderers companyselect selectoptionsonly esm">
+                <div class="card h-100 nav-card featured p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol/</span>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1 small">
+                            <i class="bi bi-stars me-1"></i>Active
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol</h5>
+                    <p class="text-secondary small mb-3">
+                        Unified <code>json-renderers</code> v13 bundle with dynamic sidebar compiler, toolbar companySelect spec, and selectOptionsOnly integration.
+                    </p>
+                    <div class="build-box featured-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-success"></i> How It Builds
+                        </div>
+                        <div class="build-code text-success-emphasis">json-renderers (v13 bundle)</div>
+                        <div class="build-detail"><code>jsonToSpec</code> + <code>jsonToTag</code> + <code>selectOptionsOnly</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">json-renderers v13</span>
+                        <span class="tag-pill">companySelect</span>
+                        <span class="tag-pill">selectOptionsOnly</span>
+                        <span class="tag-pill">Active Build</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. selectCol_V4 (Structured Pipeline) -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol_v4 v4 pipeline selectoptionsonly clean modular renderers">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol_V4/</span>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2 py-1 small">
+                            V4 Pipeline
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V4</h5>
+                    <p class="text-secondary small mb-3">
+                        Clean 6-step pipeline architecture: compile structure blueprint, prepend sidebar, render company select, and load select options.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">Step-by-Step Pipeline</div>
+                        <div class="build-detail"><code>renderToDom</code> (selectOptionsOnly) + <code>jsonToTag</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">6-Step Flow</span>
+                        <span class="tag-pill">selectOptionsOnly</span>
+                        <span class="tag-pill">V4</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol_V4/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol_V4/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. selectCol_V3 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol_v3 v3 prepend dom json-to-tag toolbar companyselect">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol_V3/</span>
+                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2 py-1 small">
+                            V3 Prepend
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V3</h5>
+                    <p class="text-secondary small mb-3">
+                        Direct DOM insertion with container prepending and dynamic company dropdown synchronization.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-info"></i> How It Builds
+                        </div>
+                        <div class="build-code">jsonToSpec + jsonToTag</div>
+                        <div class="build-detail"><code>window.ks.jsonToTag</code> (DOM builder)</div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">V3</span>
+                        <span class="tag-pill">Prepend DOM</span>
+                        <span class="tag-pill">companySelect</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol_V3/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol_V3/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. selectCol_V2 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol_v2 v2 flat array domnode companypull">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol_V2/</span>
+                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1 small">
+                            V2
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V2</h5>
+                    <p class="text-secondary small mb-3">
+                        Array-flattening DOM element builder with previous element query removal and company fallback loader.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-secondary"></i> How It Builds
+                        </div>
+                        <div class="build-code">Flat DOM Prepend</div>
+                        <div class="build-detail"><code>[domNode].flat()</code> + <code>companyPull()</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">V2</span>
+                        <span class="tag-pill">Flat Array</span>
+                        <span class="tag-pill">jsonToTag</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol_V2/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol_V2/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. selectCol_V1 -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="selectcol_v1 v1 onclick interactive nav-link active selection">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">selectCol_V1/</span>
+                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2 py-1 small">
+                            V1 Interactive
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">selectCol_V1</h5>
+                    <p class="text-secondary small mb-3">
+                        Interactive client-side selection with click event listener registration for <code>.nav-link</code> elements.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-warning"></i> How It Builds
+                        </div>
+                        <div class="build-code">Interactive Link Binding</div>
+                        <div class="build-detail"><code>onclick</code> handler + <code>classList.add("active")</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">V1</span>
+                        <span class="tag-pill">Active Click</span>
+                        <span class="tag-pill">Event Listeners</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./selectCol_V1/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./selectCol_V1/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. spec (json-renderers wrapper) -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="spec spec_renders renderers wrapper json-to-spec json-renderers">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">spec/</span>
+                        <span class="badge bg-purple-subtle text-primary border border-primary-subtle rounded-pill px-2 py-1 small">
+                            Spec Wrapper
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">spec</h5>
+                    <p class="text-secondary small mb-3">
+                        Standard spec implementation using <code>window.ks.jsonRenderers.buildSpecElement</code> wrapper bridge.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-primary"></i> How It Builds
+                        </div>
+                        <div class="build-code">jsonRenderers Bridge</div>
+                        <div class="build-detail"><code>jsonToSpec</code> + <code>jsonRenderers.buildSpecElement</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">Spec</span>
+                        <span class="tag-pill">jsonRenderers Wrapper</span>
+                        <span class="tag-pill">v13</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./spec/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./spec/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. spec_V1 (Direct Compile) -->
+            <div class="col-12 col-md-6 col-lg-4 nav-item-card"
+                data-tags="spec_v1 compile direct cdn json-to-spec json-to-tag">
+                <div class="card h-100 nav-card p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="folder-pill">spec_V1/</span>
+                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-2 py-1 small">
+                            Spec Direct
+                        </span>
+                    </div>
+                    <h5 class="fw-bold text-white mt-2 mb-1">spec_V1</h5>
+                    <p class="text-secondary small mb-3">
+                        Direct compile invocation via imported CDN compiler and <code>jsonToTag.buildSpecElement</code> DOM rendering.
+                    </p>
+                    <div class="build-box">
+                        <div class="build-label">
+                            <i class="bi bi-tools text-info"></i> How It Builds
+                        </div>
+                        <div class="build-code">compile() direct + jsonToTag</div>
+                        <div class="build-detail"><code>compile({ specJson, dataJson })</code></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-1 mb-3">
+                        <span class="tag-pill">spec_V1</span>
+                        <span class="tag-pill">Direct Compile</span>
+                        <span class="tag-pill">jsonToTag</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-auto">
+                        <a href="./spec_V1/index.html" class="btn-launch flex-grow-1 justify-content-center">
+                            Open <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="./spec_V1/index.html" target="_blank" class="btn-external" title="Open in New Tab">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- No Results Fallback -->
+        <div id="noResults" class="text-center py-5 d-none">
+            <i class="bi bi-search text-secondary display-4 d-block mb-3"></i>
+            <h5 class="text-white">No renderers builds found</h5>
+            <p class="text-secondary small">Try adjusting your search terms or keywords.</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-5 pt-4 border-top border-secondary-subtle border-opacity-10 text-center text-secondary small">
+            <p class="mb-0">Sidebar &bull; Renderers Showcase &bull; Bootstrap v5.3</p>
+        </footer>
+
+    </div>
+
+    <!-- Filter Script -->
+    <script>
+        const filterInput = document.getElementById('filterInput');
+        const cards = document.querySelectorAll('.nav-item-card');
+        const noResults = document.getElementById('noResults');
+
+        filterInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const tags = card.getAttribute('data-tags') || '';
+                const text = card.textContent.toLowerCase();
+                const matches = tags.toLowerCase().includes(query) || text.includes(query);
+
+                if (matches) {
+                    card.classList.remove('d-none');
+                    visibleCount++;
+                } else {
+                    card.classList.add('d-none');
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('d-none');
+            } else {
+                noResults.classList.add('d-none');
+            }
+        });
+    </script>
+</body>
+
+</html>

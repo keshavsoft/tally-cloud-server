@@ -19,8 +19,6 @@ const spec = window.ks.jsonToSpec.buildSpecElement(
 
 // 2. Render directly into native browser DOM elements
 document.getElementById("sidebarContainer").prepend((window.ks['json-renderers']?.buildSpecElement || window.ks.jsonToTag.buildSpecElement)(spec));
+document.querySelector(".btn-toolbar").prepend(window.ks.jsonToTag.buildSpecElement(structureBlueprint.companySelect));
 
 companyPull();
-
-
-

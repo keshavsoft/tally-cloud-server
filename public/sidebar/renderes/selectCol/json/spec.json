@@ -1,0 +1,163 @@
+{
+    "sidebar": {
+        "tagName": "div",
+        "attributes": {
+            "class": "sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary"
+        },
+        "children": [
+            {
+                "tagName": "div",
+                "attributes": {
+                    "class": "offcanvas-md offcanvas-end bg-body-tertiary",
+                    "tabindex": "-1",
+                    "id": "sidebarMenu",
+                    "aria-labelledby": "sidebarMenuLabel"
+                },
+                "children": [
+                    {
+                        "tagName": "div",
+                        "attributes": {
+                            "class": "offcanvas-header"
+                        },
+                        "children": [
+                            {
+                                "tagName": "h5",
+                                "attributes": {
+                                    "class": "offcanvas-title",
+                                    "id": "sidebarMenuLabel"
+                                },
+                                "textContent": "Company name"
+                            },
+                            {
+                                "tagName": "button",
+                                "attributes": {
+                                    "type": "button",
+                                    "class": "btn-close",
+                                    "data-bs-dismiss": "offcanvas",
+                                    "data-bs-target": "#sidebarMenu",
+                                    "aria-label": "Close"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "tagName": "div",
+                        "attributes": {
+                            "class": "offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto"
+                        },
+                        "children": [
+                            {
+                                "tagName": "ul",
+                                "attributes": {
+                                    "class": "nav flex-column"
+                                },
+                                "children": [
+                                    {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2 active",
+                                                    "aria-current": "page",
+                                                    "href": "#",
+                                                    "onclick": "event.preventDefault(); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); this.classList.add('active');"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#house-fill"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "Dashboard"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tagName": "ul",
+                                "attributes": {
+                                    "class": "nav flex-column"
+                                },
+                                "jsonToSpec": {
+                                    "operation": "loopArray",
+                                    "source": "menuItems",
+                                    "template": {
+                                        "tagName": "li",
+                                        "attributes": {
+                                            "class": "nav-item"
+                                        },
+                                        "children": [
+                                            {
+                                                "tagName": "a",
+                                                "attributes": {
+                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                    "href": "#",
+                                                    "onclick": "event.preventDefault(); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); this.classList.add('active');"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "svg",
+                                                        "attributes": {
+                                                            "class": "bi",
+                                                            "aria-hidden": "true"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "use",
+                                                                "attributes": {
+                                                                    "xlink:href": "#${icon}"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tagName": "span",
+                                                        "textContent": "${name}"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "children": []
+                            },
+                            {
+                                "tagName": "hr",
+                                "attributes": {
+                                    "class": "my-3"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "companySelect": {
+        "tagName": "select",
+        "attributes": {
+            "id": "companySelect",
+            "class": "form-select me-2",
+            "style": "width: 200px;"
+        }
+    }
+}
