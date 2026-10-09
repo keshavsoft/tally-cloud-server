@@ -19,22 +19,6 @@ const render = (structure, data) => {
 
 };
 
-function ensureCompanySelect(elementId) {
-    const target = document.getElementById(elementId);
-    if (!target) return null;
-    if (target.localName === "select") return target;
-
-    const select = document.createElement("select");
-    select.id = elementId;
-    select.className = target.className;
-    select.classList.add("control-select");
-    if (target.hasAttribute("style")) {
-        select.setAttribute("style", target.getAttribute("style"));
-    }
-    target.replaceWith(select);
-    return select;
-}
-
 function readCompanyList(payload) {
     if (Array.isArray(payload)) return payload;
     if (Array.isArray(payload?.data?.companies)) return payload.data.companies;
@@ -51,32 +35,6 @@ function readCompanyName(item) {
     return String(name ?? "").trim();
 }
 
-function populateCompanySelect(selectElement, companyNames) {
-    const options = companyNames.map((companyName) => {
-        const option = document.createElement("option");
-        option.value = companyName;
-        option.textContent = companyName;
-        return option;
-    });
-
-    selectElement.replaceChildren(...options);
-};
-
-function ensureFallbackCompany(selectElement, companyName) {
-    if (selectElement.options.length > 0) return;
-
-    const option = document.createElement("option");
-    option.value = companyName;
-    option.textContent = companyName;
-    selectElement.append(option);
-};
-
-/**
- * Shared Dynamic Company Dropdown Loader
- * Queries /v2/ws/company and fills an existing <select> or select mount point.
- * Follows strict parameter naming convention: { inParam } -> const localParam = inParam;
- */
-
 const startFunc = async ({
     inDefaultCompany = "mani9",
     inOnChange = null
@@ -87,50 +45,27 @@ const startFunc = async ({
     try {
         const response = await fetch("/v2/ws/tally.company.fetch");
 
-        // http://localhost:9011/v2/ws/tally.company.fetch
-
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
         };
 
         const payload = await response.json();
-        console.log("payload--- : ", payload);
-        // debugger
+
         const companyNames = readCompanyList(payload.data.Companies).map(readCompanyName).filter(Boolean);
 
         const uniqueCompanies = [...new Set(companyNames)];
 
         if (uniqueCompanies.length > 0) {
-            console.log("uniqueCompanies:", uniqueCompanies);
-
             window.ks.jsonRenderers.renderToDom({
                 type: "selectOptionsOnly",
                 data: uniqueCompanies,
-                targetHtmlId: "companySelect"
+                targetHtmlId: "companySelect",
+                appendPosition: "prepend"
             });
-
-            // render(structure, { companies: uniqueCompanies });
         };
     } catch (err) {
         console.warn("Could not load dynamic company list from /v2/ws/company:", err);
     };
-
-    ensureFallbackCompany(selectEl, localDefault);
-
-    // Bind change listener
-    if (selectEl.dataset.companyDropdownBound !== "true") {
-        selectEl.addEventListener("change", (e) => {
-            const newComp = e.target.value;
-            localStorage.setItem("selectedTallyCompany", newComp);
-            if (typeof localOnChange === "function") {
-                localOnChange({ inCompany: newComp });
-            }
-        });
-        selectEl.dataset.companyDropdownBound = "true";
-    }
-
-    return selectEl.value;
-}
-
+};
 
 export default startFunc;

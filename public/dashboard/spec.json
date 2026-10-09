@@ -1198,27 +1198,7 @@
                                                     "class": "form-select",
                                                     "style": "width: 200px;"
                                                 },
-                                                "children": [
-                                                    {
-                                                        "tagName": "option",
-                                                        "attributes": {
-                                                            "selected": "true"
-                                                        },
-                                                        "textContent": "Select"
-                                                    },
-                                                    {
-                                                        "tagName": "option",
-                                                        "textContent": "Option 1"
-                                                    },
-                                                    {
-                                                        "tagName": "option",
-                                                        "textContent": "Option 2"
-                                                    },
-                                                    {
-                                                        "tagName": "option",
-                                                        "textContent": "Option 3"
-                                                    }
-                                                ]
+                                                "children": []
                                             },
                                             {
                                                 "tagName": "div",
