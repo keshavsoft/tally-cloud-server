@@ -68,6 +68,23 @@ const unitsSideId = () => {
     });
 };
 
+const fillCompanies = async () => {
+
+    const fetchUrl = `/v2/ws/company.fetch`;
+
+    const data = await fetchData(fetchUrl);
+
+    const companies = data.data.Companies.map(element => {
+        return element.Name;
+    });
+
+    window.ks.jsonRenderers.renderToDom({
+        type: "selectOptionsOnly", appendPosition: "prepend",
+        data: companies,
+        targetHtmlId: "companySelect"
+    });
+};
+
 const startFunc = () => {
     try {
         const createDomElement = window.ks.jsonToTag.buildSpecElement(spec);
@@ -75,7 +92,10 @@ const startFunc = () => {
         const cont1 = document.getElementById("body");
         cont1.prepend(...createDomElement);
 
-        companyPull();
+        // companyPull();
+
+        fillCompanies();
+
         withBatchesSideId();
         unitsSideId();
 
