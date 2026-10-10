@@ -1,11 +1,13 @@
 const startFunc = async ({ inTargetHtmlId, inData }) => {
     const localTargetHtmlId = inTargetHtmlId;
-
+    // debugger;
     try {
+        // console.log("localTargetHtmlId : ", localTargetHtmlId, inData);
+
         window.ks.jsonRenderers.renderToDom({
             type: "table", appendPosition: "prepend1",
             data: inData,
-            columns: ["itemName", "baseUnit"],
+            columns: ["Name", "Units"],
             targetHtmlId: localTargetHtmlId
         });
     } catch (err) {

@@ -35,15 +35,9 @@ function readCompanyName(item) {
     return String(name ?? "").trim();
 }
 
-const startFunc = async ({
-    inDefaultCompany = "mani9",
-    inOnChange = null
-} = {}) => {
-    const localDefault = inDefaultCompany;
-    const localOnChange = inOnChange;
-
+const startFunc = async () => {
     try {
-        const response = await fetch("/v2/ws/tally.company.fetch");
+        const response = await fetch("/v2/ws/company.fetch");
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
