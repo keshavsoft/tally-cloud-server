@@ -1,19 +1,15 @@
-import companyPull from "./companyDropdown.js";
 import unitsPull from "./js/units/index.js";
 
 import spec from "./spec.json" with { type: "json" };
 
 async function fetchData(url) {
     try {
-        // 1. Wait for the initial network response
         const response = await fetch(url);
 
-        // 2. Check if the HTTP status code is valid (200-299)
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        // 3. Wait for the body stream to be completely read and parsed as JSON
         const data = await response.json();
         return data;
 
