@@ -1,8 +1,3 @@
-const modalEl = document.getElementById("batchModal");
-const batchModal = new bootstrap.Modal(modalEl);
-const modalTitle = document.getElementById("batchModalTitle");
-const modalBody = document.getElementById("batchModalBody");
-
 import { saveClick } from "./methods/saveClick.js";
 import { rowOptionsClick } from "./methods/rowOptionsClick.js";
 import { cellButtonClick } from "./methods/cellButtonClick.js";
@@ -25,18 +20,29 @@ async function fetchData(url) {
 };
 
 const startFunc = () => {
-    let jVarLocalunitsSideId = document.getElementById('withBatchesSideId');
+    const modalEl = document.getElementById("batchModal");
+    const modalTitle = document.getElementById("batchModalTitle");
+    const modalBody = document.getElementById("batchModalBody");
+    const batchesButton = document.getElementById("withBatchesSideId");
 
-    jVarLocalunitsSideId.addEventListener("click", async (event) => {
+    if (!modalEl || !modalTitle || !modalBody || !batchesButton || !window.bootstrap?.Modal) {
+        console.error("Cannot initialize batches: required modal, button, or Bootstrap elements are missing.");
+        return;
+    }
+
+    const batchModal = new window.bootstrap.Modal(modalEl);
+
+    batchesButton.addEventListener("click", async (event) => {
         const company = "mani9"
 
         const fetchUrl = `/v2/ws/masters.stockItems.withBatches?company=${company}`;
 
         const data = await fetchData(fetchUrl);
+        const stockItems = data?.data?.StockItems ?? [];
 
         window.ks.jsonRenderers.renderToDom({
             type: "table",
-            data: data?.data?.StockItems,
+            data: stockItems,
             columns: [
                 { columnName: "Name" },
                 {
@@ -74,7 +80,7 @@ const startFunc = () => {
                 console.log("hhhhhhh : ", tbody);
 
                 if (tbody) {
-                    cellButtonClick({ ...event, currentTarget: button }, { data, modalTitle, modalBody, batchModal });
+                    cellButtonClick({ ...event, currentTarget: button }, { data: stockItems, modalTitle, modalBody, batchModal });
                 } else {
                     rowOptionsClick({ ...event, currentTarget: button });
                 };

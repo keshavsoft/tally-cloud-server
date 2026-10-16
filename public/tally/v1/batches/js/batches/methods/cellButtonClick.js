@@ -9,12 +9,25 @@ export function cellButtonClick(event, { data, modalTitle, modalBody, batchModal
     const selectedItem = data[rowIndex];
     if (!selectedItem) return;
 
-    modalTitle.textContent = `${selectedItem.itemName} — Batches (${selectedItem.baseUnit})`;
+    const itemName = selectedItem.itemName ?? selectedItem.Name ?? selectedItem.name ?? "Unnamed item";
+    const baseUnit = selectedItem.baseUnit ?? selectedItem.Units ?? selectedItem.BASEUNITS ?? "-";
+    const rawBatches = selectedItem.batches ?? selectedItem.Batches ?? [];
+    const batches = (Array.isArray(rawBatches) ? rawBatches : [rawBatches])
+        .filter(batch => batch && typeof batch === "object")
+        .map(batch => ({
+            godownName: batch.godownName ?? batch.GodownName ?? batch.GODOWNNAME ?? "-",
+            batchName: batch.batchName ?? batch.BatchName ?? batch.BATCHNAME ?? "-",
+            openingBalance: batch.openingBalance ?? batch.OpeningBalance ?? batch.OPENINGBALANCE ?? "-",
+            openingRate: batch.openingRate ?? batch.OpeningRate ?? batch.OPENINGRATE ?? "-",
+            openingValue: batch.openingValue ?? batch.OpeningValue ?? batch.OPENINGVALUE ?? "-"
+        }));
+
+    modalTitle.textContent = `${itemName} — Batches (${baseUnit})`;
     modalBody.replaceChildren();
 
-    if (!selectedItem.batches || selectedItem.batches.length === 0) {
+    if (batches.length === 0) {
         modalBody.innerHTML = `<div class="alert alert-secondary py-3 mb-0 text-center"><span class="text-muted">No batch records found for <strong></strong></span></div>`;
-        modalBody.querySelector("strong").textContent = selectedItem.itemName;
+        modalBody.querySelector("strong").textContent = itemName;
     } else {
         const batchSpec = window.ks.jsonRenderersBuild.render({
             type: "table",
@@ -25,7 +38,7 @@ export function cellButtonClick(event, { data, modalTitle, modalBody, batchModal
                 { columnName: "openingRate" },
                 { columnName: "openingValue" }
             ],
-            data: selectedItem.batches,
+            data: batches,
             options: { showSerial: true }
         });
         modalBody.appendChild(window.ks.jsonToTag.buildSpecElement(batchSpec));
