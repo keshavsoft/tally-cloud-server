@@ -26,6 +26,8 @@ let jFLocalcompanySelect = () => {
     let jVarLocalHtmlId = document.getElementById(jVarLocalcompanySelect);
 
     if (jVarLocalHtmlId === null === false) {
+        console.log("lllllll ", jVarLocalHtmlId.innerHTML);
+
         return jVarLocalHtmlId.value.trim();
     };
 };
@@ -34,15 +36,28 @@ const withBatchesSideId = () => {
     let jVarLocalunitsSideId = document.getElementById('withBatchesSideId');
 
     jVarLocalunitsSideId.addEventListener("click", async (event) => {
-        const company = jFLocalcompanySelect();
+        const company = "mani9" || jFLocalcompanySelect();
 
         const fetchUrl = `/v2/ws/masters.stockItems.withBatches?company=${company}`;
 
         const data = await fetchData(fetchUrl);
 
-        unitsPull({
-            inData: data.data?.StockItems,
-            inTargetHtmlId: "ksContainerId"
+        window.ks.jsonRenderers.renderToDom({
+            type: "table",
+            data: data?.data?.StockItems,
+            columns: [
+                { columnName: "Name" },
+                {
+                    columnName: "Batches",
+                    "template": {
+                        "body": {
+                            "tr": "buildBodyTr",
+                            "cell": "buttonCell"
+                        }
+                    }
+                }
+            ],
+            targetHtmlId: "ksContainerId"
         });
     });
 };
@@ -51,15 +66,27 @@ const unitsSideId = () => {
     let jVarLocalunitsSideId = document.getElementById('unitsSideId');
 
     jVarLocalunitsSideId.addEventListener("click", async (event) => {
-        const company = jFLocalcompanySelect();
+        const company = "mani9" || jFLocalcompanySelect();
 
-        const fetchUrl = `/v2/ws/masters.unit.all?company=${company}`;
+        const fetchUrl = `/v2/ws/masters.units.all?company=${company}`;
+
+        // http://localhost:9011/v2/ws/masters.units.all?company=mani9
 
         const data = await fetchData(fetchUrl);
 
-        unitsPull({
-            inData: data.data?.Units,
-            inTargetHtmlId: "ksContainerId"
+        // unitsPull({
+        //     inData: data.data?.Units,
+        //     inTargetHtmlId: "ksContainerId"
+        // });
+
+
+        window.ks.jsonRenderers.renderToDom({
+            type: "table",
+            data: data?.data?.Units,
+            columns: [
+                { columnName: "Name" }
+            ],
+            targetHtmlId: "ksContainerId"
         });
     });
 };
