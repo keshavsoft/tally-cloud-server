@@ -14,7 +14,8 @@
 
     <div class="container py-4">
         <h2 class="mb-4">Bootstrap Modal Popup Sample</h2>
-        <p class="text-muted">Below is the standalone HTML modal and trigger button for review and analysis before converting to JSON spec.</p>
+        <p class="text-muted">Below is the standalone HTML modal and trigger button for review and analysis before
+            converting to JSON spec.</p>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -36,6 +37,24 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pop-up for Batches (Lean DOM Shell) -->
+    <div class="modal fade" id="batchModal" tabindex="-1" aria-labelledby="batchModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="batchModalTitle">Batches</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3" id="batchModalBody">
+                </div>
+                <div class="modal-footer py-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
