@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batches · Tally V3</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous">
+    <link href="../shared/styles.css" rel="stylesheet">
+</head>
+<body>
+    <main class="container-fluid portal-page px-3 px-md-4 py-4 py-md-5">
+        <header class="mb-4">
+            <p class="text-primary fw-semibold text-uppercase small mb-2">Tally · V3</p>
+            <h1 class="display-6 fw-semibold mb-1">Stock Items with Batches</h1>
+            <p class="portal-eyebrow mb-0">Company: mani9</p>
+        </header>
+
+        <div class="row g-3 align-items-end mb-3">
+            <div class="col-12 col-lg-6">
+                <label class="form-label fw-semibold" for="batchSearch">Search stock items and batches</label>
+                <input id="batchSearch" class="form-control form-control-lg" type="search"
+                    placeholder="Search item, batch, godown, balance, or rate…" autocomplete="off">
+            </div>
+            <div class="col-12 col-lg-6 text-lg-end">
+                <p id="batchesStatus" class="portal-eyebrow mb-1" role="status" aria-live="polite">Loading stock items…</p>
+            </div>
+        </div>
+
+        <div class="portal-table-wrap">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr><th scope="col">Name</th><th scope="col">Batches</th></tr>
+                </thead>
+                <tbody id="stockItemsTableBody"></tbody>
+            </table>
+            <p id="noMatchesMessage" class="text-secondary p-4 mb-0" hidden>No stock items match this search.</p>
+        </div>
+    </main>
+
+    <a class="home-button" href="/tally/v3/" aria-label="Home" title="Home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m3 10 9-7 9 7" /><path d="M5 9v12h14V9M9 21v-7h6v7" />
+        </svg>
+    </a>
+
+    <div class="modal fade" id="batchModal" tabindex="-1" aria-labelledby="batchModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h2 class="modal-title fs-5" id="batchModalTitle">Batches</h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Godown</th>
+                                    <th scope="col">Batch</th>
+                                    <th scope="col">Opening balance</th>
+                                    <th scope="col">Opening rate</th>
+                                    <th scope="col">Opening value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batchRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script type="module" src="./index.js"></script>
+</body>
+</html>
