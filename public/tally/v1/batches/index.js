@@ -22,24 +22,18 @@ async function fetchData(url) {
 
 // Usage:
 
-let jFLocalcompanySelect = () => {
-    let jVarLocalcompanySelect = 'companySelect'
-    let jVarLocalHtmlId = document.getElementById(jVarLocalcompanySelect);
-
-    if (jVarLocalHtmlId === null === false) {
-        console.log("lllllll ", jVarLocalHtmlId.innerHTML);
-
-        return jVarLocalHtmlId.value.trim();
-    };
+const jFLocalcompanySelect = () => {
+    const companySelect = document.getElementById("companySelect");
+    return companySelect?.value?.trim() || "mani9";
 };
 
 const unitsSideId = () => {
     let jVarLocalunitsSideId = document.getElementById('unitsSideId');
 
     jVarLocalunitsSideId.addEventListener("click", async (event) => {
-        const company = "mani9" || jFLocalcompanySelect();
+        const company = jFLocalcompanySelect();
 
-        const fetchUrl = `/v2/ws/masters.units.all?company=${company}`;
+        const fetchUrl = `/v2/ws/masters.units.all?company=${encodeURIComponent(company)}`;
 
         // http://localhost:9011/v2/ws/masters.units.all?company=mani9
 
@@ -89,7 +83,7 @@ const startFunc = () => {
 
         fillCompanies();
 
-        batchesClick();
+        batchesClick(jFLocalcompanySelect);
         unitsSideId();
     } catch (err) {
         console.error("Failed to render v27 sample:", err);

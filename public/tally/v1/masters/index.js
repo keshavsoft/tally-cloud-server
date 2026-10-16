@@ -21,24 +21,18 @@ async function fetchData(url) {
 
 // Usage:
 
-let jFLocalcompanySelect = () => {
-    let jVarLocalcompanySelect = 'companySelect'
-    let jVarLocalHtmlId = document.getElementById(jVarLocalcompanySelect);
-
-    if (jVarLocalHtmlId === null === false) {
-        console.log("lllllll ", jVarLocalHtmlId.innerHTML);
-
-        return jVarLocalHtmlId.value.trim();
-    };
+const jFLocalcompanySelect = () => {
+    const companySelect = document.getElementById("companySelect");
+    return companySelect?.value?.trim() || "mani9";
 };
 
 const withBatchesSideId = () => {
     let jVarLocalunitsSideId = document.getElementById('withBatchesSideId');
 
     jVarLocalunitsSideId.addEventListener("click", async (event) => {
-        const company = "mani9" || jFLocalcompanySelect();
+        const company = jFLocalcompanySelect();
 
-        const fetchUrl = `/v2/ws/masters.stockItems.withBatches?company=${company}`;
+        const fetchUrl = `/v2/ws/masters.stockItems.withBatches?company=${encodeURIComponent(company)}`;
 
         const data = await fetchData(fetchUrl);
 
@@ -66,9 +60,9 @@ const unitsSideId = () => {
     let jVarLocalunitsSideId = document.getElementById('unitsSideId');
 
     jVarLocalunitsSideId.addEventListener("click", async (event) => {
-        const company = "mani9" || jFLocalcompanySelect();
+        const company = jFLocalcompanySelect();
 
-        const fetchUrl = `/v2/ws/masters.units.all?company=${company}`;
+        const fetchUrl = `/v2/ws/masters.units.all?company=${encodeURIComponent(company)}`;
 
         // http://localhost:9011/v2/ws/masters.units.all?company=mani9
 

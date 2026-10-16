@@ -19,7 +19,7 @@ async function fetchData(url) {
     }
 };
 
-const startFunc = () => {
+const startFunc = (getCompany = () => "mani9") => {
     const modalEl = document.getElementById("batchModal");
     const modalTitle = document.getElementById("batchModalTitle");
     const modalBody = document.getElementById("batchModalBody");
@@ -33,9 +33,9 @@ const startFunc = () => {
     const batchModal = new window.bootstrap.Modal(modalEl);
 
     batchesButton.addEventListener("click", async (event) => {
-        const company = "mani9"
+        const company = getCompany() || "mani9";
 
-        const fetchUrl = `/v2/ws/masters.stockItems.withBatches?company=${company}`;
+        const fetchUrl = `/v2/ws/masters.stockItems.withBatches?company=${encodeURIComponent(company)}`;
 
         const data = await fetchData(fetchUrl);
         const stockItems = data?.data?.StockItems ?? [];

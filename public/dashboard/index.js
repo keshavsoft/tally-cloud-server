@@ -70,13 +70,12 @@ const fillCompanies = async () => {
 
     const data = await fetchData(fetchUrl);
 
-    const companies = data.data.Companies.map(element => {
-        return element.Name;
-    });
-
     window.ks.jsonRenderers.renderToDom({
         type: "selectOptionsOnly", appendPosition: "prepend",
-        data: companies,
+        data: data?.data?.Companies ?? [],
+        columns: [
+            { columnName: "Name" }
+        ],
         targetHtmlId: "companySelect"
     });
 };
