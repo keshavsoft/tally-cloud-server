@@ -1021,6 +1021,85 @@
                                                 "children": [
                                                     {
                                                         "tagName": "span",
+                                                        "textContent": "Vouchers"
+                                                    },
+                                                    {
+                                                        "tagName": "a",
+                                                        "attributes": {
+                                                            "class": "link-secondary",
+                                                            "href": "#",
+                                                            "aria-label": "Add a new report"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "svg",
+                                                                "attributes": {
+                                                                    "class": "bi",
+                                                                    "aria-hidden": "true"
+                                                                },
+                                                                "children": [
+                                                                    {
+                                                                        "tagName": "use",
+                                                                        "attributes": {
+                                                                            "xlink:href": "#plus-circle"
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tagName": "ul",
+                                                "attributes": {
+                                                    "class": "nav flex-column mb-auto"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "li",
+                                                        "attributes": {
+                                                            "class": "nav-item"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "a",
+                                                                "attributes": {
+                                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                                    "href": "#",
+                                                                    "id": "ReceiptsId"
+                                                                },
+                                                                "children": [
+                                                                    {
+                                                                        "tagName": "svg",
+                                                                        "attributes": {
+                                                                            "class": "bi",
+                                                                            "aria-hidden": "true"
+                                                                        },
+                                                                        "children": [
+                                                                            {
+                                                                                "tagName": "use",
+                                                                                "attributes": {
+                                                                                    "xlink:href": "#file-earmark-text"
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "Receipts"
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tagName": "h6",
+                                                "attributes": {
+                                                    "class": "sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "tagName": "span",
                                                         "textContent": "Reports"
                                                     },
                                                     {

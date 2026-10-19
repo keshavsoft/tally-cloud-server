@@ -1,4 +1,5 @@
 import batchesClick from "./js/batches/index.js";
+import receiptsClick from "./js/receipts/index.js";
 import reports from "./js/reports/index.js";
 import fillCompanies from "./js/fillCompanies/index.js";
 import unitsSideId from "./js/masters/units/index.js";
@@ -17,6 +18,7 @@ const startFunc = () => {
         batchesClick();
         unitsSideId();
         reports();
+        receiptsClick();
     } catch (err) {
         console.error("Failed to render v27 sample:", err);
     };

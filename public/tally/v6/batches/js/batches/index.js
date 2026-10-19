@@ -2,6 +2,8 @@ import { saveClick } from "./methods/saveClick.js";
 import { rowOptionsClick } from "./methods/rowOptionsClick.js";
 import { cellButtonClick } from "./methods/cellButtonClick.js";
 
+const htmlId = "withBatchesSideId";
+
 async function fetchData(url) {
     try {
         const response = await fetch(url);
@@ -23,7 +25,7 @@ const startFunc = () => {
     const modalEl = document.getElementById("batchModal");
     const modalTitle = document.getElementById("batchModalTitle");
     const modalBody = document.getElementById("batchModalBody");
-    const batchesButton = document.getElementById("withBatchesSideId");
+    const batchesButton = document.getElementById(htmlId);
 
     if (!modalEl || !modalTitle || !modalBody || !batchesButton || !window.bootstrap?.Modal) {
         console.error("Cannot initialize batches: required modal, button, or Bootstrap elements are missing.");

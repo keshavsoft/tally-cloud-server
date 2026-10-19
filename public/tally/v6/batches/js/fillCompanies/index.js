@@ -21,9 +21,13 @@ const startFunc = async () => {
 
     const data = await fetchData(fetchUrl);
 
+    const companies = data?.data.map(company => {
+        return { Name: company };
+    });
+
     window.ks.jsonRenderers.render({
         type: "selectOptionsOnly", appendPosition: "prepend",
-        data: data?.data?.Companies,
+        data: companies,
         columns: [
             { columnName: "Name" }
         ],
