@@ -45,7 +45,7 @@ const startFunc = () => {
 
         const data = await fetchData(fetchUrl);
 
-        window.ks.jsonRenderers.renderToDom({
+        window.ks.jsonRenderers.render({
             type: "table",
             data: data?.data,
             columns: [
@@ -54,7 +54,9 @@ const startFunc = () => {
                 { columnName: "GodownName" },
                 { columnName: "Balance" }
             ],
-            targetHtmlId: "ksContainerId"
+            targetHtmlId: "ksContainerId",
+            appendPosition: "",
+            classToApply: ""
         });
 
         let container = document.getElementById('ksContainerId');

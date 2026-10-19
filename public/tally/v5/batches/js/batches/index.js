@@ -46,7 +46,7 @@ const startFunc = () => {
         const data = await fetchData(fetchUrl);
         const stockItems = data?.data?.StockItems ?? [];
 
-        window.ks.jsonRenderers.renderToDom({
+        window.ks.jsonRenderers.render({
             type: "table",
             data: stockItems,
             columns: [
@@ -61,7 +61,9 @@ const startFunc = () => {
                     }
                 }
             ],
-            targetHtmlId: "ksContainerId"
+            targetHtmlId: "ksContainerId",
+            appendPosition: "",
+            classToApply: ""
         });
 
         let container = document.getElementById('ksContainerId');
