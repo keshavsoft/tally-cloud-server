@@ -54,7 +54,7 @@ const startFunc = () => {
         const Receipts = data?.data?.Receipts ?? [];
 
         window.ks.jsonRenderers.render({
-            type: "table",
+            type: "table.simple",
             data: Receipts,
             columns: [
                 { columnName: "date" },

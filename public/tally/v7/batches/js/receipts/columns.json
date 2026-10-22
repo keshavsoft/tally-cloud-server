@@ -1,0 +1,17 @@
+[
+    {
+        "columnName": "date"
+    },
+    {
+        "columnName": "ledgername"
+    },
+    {
+        "columnName": "isdeemedpositive"
+    },
+    {
+        "columnName": "vouchernumber"
+    },
+    {
+        "columnName": "amount"
+    }
+]

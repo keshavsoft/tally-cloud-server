@@ -31,7 +31,7 @@ const startFunc = () => {
         const data = await fetchData(fetchUrl);
 
         window.ks.jsonRenderers.render({
-            type: "table",
+            type: "table.simple",
             data: data?.data?.Units,
             columns: [
                 { columnName: "Name" }
