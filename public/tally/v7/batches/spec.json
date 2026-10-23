@@ -1010,6 +1010,40 @@
                                                                 ]
                                                             }
                                                         ]
+                                                    },
+                                                    {
+                                                        "tagName": "li",
+                                                        "attributes": {
+                                                            "class": "nav-item"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "tagName": "a",
+                                                                "attributes": {
+                                                                    "class": "nav-link d-flex align-items-center gap-2",
+                                                                    "href": "#",
+                                                                    "id": "ledgersSideId"
+                                                                },
+                                                                "children": [
+                                                                    {
+                                                                        "tagName": "svg",
+                                                                        "attributes": {
+                                                                            "class": "bi",
+                                                                            "aria-hidden": "true"
+                                                                        },
+                                                                        "children": [
+                                                                            {
+                                                                                "tagName": "use",
+                                                                                "attributes": {
+                                                                                    "xlink:href": "#file-earmark-text"
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "ledgers"
+                                                                ]
+                                                            }
+                                                        ]
                                                     }
                                                 ]
                                             },

@@ -17,7 +17,7 @@ async function fetchData(url) {
 
 const startFunc = async () => {
 
-    const fetchUrl = `/v2/ws/company.fetch`;
+    const fetchUrl = `/v2/ws/company`;
 
     const data = await fetchData(fetchUrl);
 

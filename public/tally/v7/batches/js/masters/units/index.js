@@ -26,13 +26,17 @@ const startFunc = () => {
     jVarLocalunitsSideId.addEventListener("click", async (event) => {
         const company = jFLocalcompanySelect();
 
-        const fetchUrl = `/v2/ws/masters.units.all?company=${encodeURIComponent(company)}`;
+        const fetchUrl = `/v2/ws/masters.Unit?company=${encodeURIComponent(company)}`;
 
         const data = await fetchData(fetchUrl);
 
+        const units = data?.data.map(company => {
+            return { Name: company };
+        });
+
         window.ks.jsonRenderers.render({
             type: "table.simple",
-            data: data?.data?.Units,
+            data: units,
             columns: [
                 { columnName: "Name" }
             ],

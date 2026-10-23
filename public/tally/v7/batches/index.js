@@ -3,6 +3,7 @@ import receiptsClick from "./js/receipts/index.js";
 import reports from "./js/reports/index.js";
 import fillCompanies from "./js/fillCompanies/index.js";
 import unitsSideId from "./js/masters/units/index.js";
+import ledgers from "./js/ledgers/index.js";
 
 import spec from "./spec.json" with { type: "json" };
 
@@ -17,6 +18,7 @@ const startFunc = () => {
 
         batchesClick();
         unitsSideId();
+        ledgers();
         reports();
         receiptsClick();
     } catch (err) {
