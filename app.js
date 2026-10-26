@@ -4,6 +4,7 @@ import { startWebSocketServer } from "./ws.js";
 import { lastRouter } from "./routes/last.js";
 import { router as companyRouter } from "./routes/company.js";
 import { router as commandRouter } from "./routes/routes.js";
+import { router as routerFromTally } from "./tally/routes.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/last", lastRouter);
 app.use("/v2/ws", commandRouter);
 app.use("/api", commandRouter);
 app.use("/ws", commandRouter);
+app.use("/tally", routerFromTally);
 
 startWebSocketServer();
 
