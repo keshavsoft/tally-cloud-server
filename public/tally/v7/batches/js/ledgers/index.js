@@ -38,12 +38,14 @@ const startFunc = () => {
             return { Name: company };
         });
 
+        const localColumns = [
+            { columnName: "Name" }
+        ];
+
         const container = window.ks.jsonRenderers.render({
             type: "table.withFooter",
             data: ledgerNames,
-            columns: [
-                { columnName: "Name" }
-            ],
+            columns: localColumns,
             targetHtmlId: "ksContainerId",
             appendPosition: "",
             classToApply: "",
@@ -52,8 +54,6 @@ const startFunc = () => {
                 showOptions: true
             }
         });
-
-        console.log("container : ", container);
 
         container.addEventListener("click", async event => {
             const button = event.target.closest("button");
@@ -64,22 +64,25 @@ const startFunc = () => {
             try {
                 if (label === "save") {
                     const result = readFooter(button);
-                    console.log("result : ", result);
 
-                    // const response = await fetch(`/tally/v1/import/masters.Ledger.${result.Name}`);
-                    // const response = await fetch(`/tally/v1/import?${result}`);
-
-                    const response = await fetch(`/tally/v1/import?${new URLSearchParams(result).toString()}`);
+                    const response = await fetch(`/tally/v2/create?${new URLSearchParams(result).toString()}`);
 
                     const data = await response.json();
-                    // output.textContent = JSON.stringify({ action: "footer-save", data: result }, null, 2);
+
                     return;
                 }
 
                 if (label === "show") {
-                    const result = readRow(button, columns.map(column => column.columnName));
-                    output.textContent = JSON.stringify({ action: "row-options", data: result }, null, 2);
-                }
+                    const rowData = readRow(button, localColumns);
+                    console.log("rowData : ", rowData);
+
+                    const response = await fetch(`/tally/v2/delete?${new URLSearchParams(rowData).toString()}`);
+
+                    const data = await response.json();
+                    // const response = await fetch(`/tally/v2/delete?${new URLSearchParams(result).toString()}`);
+
+                    // const data = await response.json();
+                };
             } catch (error) {
                 output.textContent = `${error.name}: ${error.message}`;
                 console.error(error);

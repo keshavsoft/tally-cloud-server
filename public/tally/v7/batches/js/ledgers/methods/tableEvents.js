@@ -9,12 +9,14 @@ const rowInstructions = columns => [
   {
     sourcePath: { fileName: "previous" },
     func: "querySelectorAll",
-    arguments: { selector: "td" }
+    // The renderer prepends a serial-number cell before the data cells.
+    arguments: { selector: "td:not(:first-child)" }
   },
   {
     sourcePath: { fileName: "previous" },
     func: "mapValues",
-    arguments: { columns, read: "text" }
+    // mapValues expects the keys as strings, not { columnName } objects.
+    arguments: { columns: columns.map(column => column.columnName), read: "text" }
   }
 ];
 
