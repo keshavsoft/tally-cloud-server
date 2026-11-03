@@ -1,19 +1,4 @@
-async function fetchData(url) {
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-
-    } catch (error) {
-        // Captures network failures or thrown errors from above
-        console.error("Fetch operation failed:", error);
-    }
-};
+import toDom from "../../common/toDom.js";
 
 const jFLocalcompanySelect = () => {
     const companySelect = document.getElementById("companySelect");
@@ -28,22 +13,12 @@ const startFunc = () => {
 
         const fetchUrl = `/v2/ws/masters.Unit?company=${encodeURIComponent(company)}`;
 
-        const data = await fetchData(fetchUrl);
+        const response = await fetch(fetchUrl);
+        const data = await response.json();
 
-        const units = data?.data.map(company => {
-            return { Name: company };
-        });
-
-        window.ks.jsonRenderers.render({
-            type: "table.simple",
-            data: units,
-            columns: [
-                { columnName: "Name" }
-            ],
-            targetHtmlId: "ksContainerId",
-            appendPosition: "",
-            classToApply: ""
-        });
+        toDom(data?.data, [
+            { columnName: "tallyName" }
+        ]);
     });
 };
 

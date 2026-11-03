@@ -1,9 +1,9 @@
-import batchesClick from "./js/batches/index.js";
+import batchesClick from "./js/masters/batches/index.js";
 import receiptsClick from "./js/receipts/index.js";
 import reports from "./js/reports/index.js";
 import fillCompanies from "./js/fillCompanies/index.js";
 import unitsSideId from "./js/masters/units/index.js";
-import ledgers from "./js/ledgers/index.js";
+import ledgers from "./js/masters/ledgers/index.js";
 
 import spec from "./spec.json" with { type: "json" };
 
